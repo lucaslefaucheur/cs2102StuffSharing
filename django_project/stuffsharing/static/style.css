@@ -1,0 +1,22 @@
+body {
+    background: #f1f1f1;
+}
+
+.row {
+    margin: 20px;
+}
+
+.left-column {
+    float: left; 
+    width: 25%;
+}
+
+.right-column {
+    float: right; 
+    width: 75%;
+}
+
+.card {
+    padding: 20px; 
+    margin: 10px;
+}
