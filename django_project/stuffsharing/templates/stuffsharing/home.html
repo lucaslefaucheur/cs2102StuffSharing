@@ -17,9 +17,6 @@
                 <i class="fas fa-search h4 text-body"></i>
             </div>
             <div class="col">
-                <!--
-                <input class="form-control form-control-lg form-control-borderless" type="Search" placeholder="Search stuffs or keywords">-->       
-
             {{ form.search }}
             </div>
             <div class="col-auto">
@@ -29,21 +26,7 @@
         </div>
     </form>
     <div>
-       
-<div style='background-color:#fefbd8'>
-<ul style="list-style-type:none">
-
-   {% for p in propositions %}
-    <li><h2>{{p.stuff_for_lown.description}}</p></h2>
-    <li><h2>Owner : {{p.stuff_for_lown.owner.user_name}}</p></h2>
-    <li><h2>Start Date : {{p.start_date}}</h2></li>
-    <li><h2>End Date : {{p.end_date}}</h2></li>
-    <li><h2>Price : {{p.price}} $</h2></li>
-    <li><h2>Pick up Adress : {{p.pickupAdress}}</h2></li>
-    <li><h2>Return Adress : {{p.returnAdress}}</h2></li>
-{% endfor %}
-</ul>
-</div>
+    
   </div>
 
 {% endblock content %}

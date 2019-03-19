@@ -62,53 +62,42 @@
     </div>
     
     <div class="right-column">
-        <form class="card" style="padding: 0px;">
-            <div class="card-body row no-gutters align-items-center">
-                <div class="col-auto">
-                    <i class="fas fa-search h4 text-body"></i>
-                </div>
-                <div class="col">
-                    <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search stuffs or keywords">
-                </div>
-                <div class="col-auto">
-                    <button class="btn btn-lg btn-success" type="submit">Search</button>
-                </div>
-            </div>
-        </form>
+        <form class="card" method="post" style="padding: 0px;">
+        {% csrf_token%}
 
+
+        <div class="card-body row no-gutters align-items-center">
+            <div class="col-auto">
+                <i class="fas fa-search h4 text-body"></i>
+            </div>
+            <div class="col">
+                   
+
+            {{ form.search }}
+            </div>
+            <div class="col-auto">
+                
+                <button class="btn btn-lg btn-success" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+
+
+		{% for p in propositions %}
         <div class="card">
-            <h3>Loan Proposition #1</h3>
-            <h5>5$</h5>
-            <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-            <p>start date: 01/01/2019&nbsp;&nbsp;&nbsp;&nbsp;end date: 01/01/2019</p>
+            <h3>Loan Proposition #{{ forloop.counter }}</h3>
+            <h5>{{p.price}}$</h5>
+            <p>{{p.stuff_for_lown.description}}</p>
+            <p>start date: {{p.start_date}}&nbsp;&nbsp;&nbsp;&nbsp;end date: {{p.end_date}}</p>
+           
+			<p>Owner : {{p.stuff_for_lown.owner.user_name}}</p>
+			<p>Pick up Adress : {{p.pickupAdress}}</p>
+			<p>Return Adress : {{p.returnAdress}}</p>
             <div><button type="button" class="btn btn-success">Request!</button></div>
         </div>
-        <div class="card">
-            <h3>Loan Proposition #2</h3>
-            <h5>free</h5>
-            <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-            <p>start date: 01/01/2019&nbsp;&nbsp;&nbsp;&nbsp;end date: 01/01/2019</p>
-            <div><button type="button" class="btn btn-success">Request!</button></div>
-        </div>
-        <div class="card">
-            <h3>Loan Proposition #3</h3>
-            <h5>bid: min 3$</h5>
-            <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-            <p>start date: 01/01/2019&nbsp;&nbsp;&nbsp;&nbsp;end date: 01/01/2019</p>
-            <form action="/action_page.php">
-                <div class="form-group">
-                    <input class="form-control">
-                    <button type="button" class="btn btn-success">Request!</button>
-                </div>
-            </form>
-        </div>
-        <div class="card">
-            <h3>Loan Proposition #4</h3>
-            <h5>6$</h5>
-            <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-            <p>start date: 01/01/2019&nbsp;&nbsp;&nbsp;&nbsp;end date: 01/01/2019</p>
-            <div><button type="button" class="btn btn-success">Request!</button></div>
-        </div> 
+        {% endfor %}
+
+       
     </div>
 </div>
 
