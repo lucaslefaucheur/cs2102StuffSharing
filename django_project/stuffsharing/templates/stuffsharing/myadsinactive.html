@@ -9,15 +9,15 @@
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
         <label class="btn btn-secondary" onclick="addFunction()">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked>Add
+            <input type="radio" name="options" id="option1" autocomplete="off" checked>Add Ad
         </label>
         
         <label class="btn btn-secondary" onclick="activeFunction()">
-             <input type="radio" name="options" id="option2" autocomplete="off">Active
+             <input type="radio" name="options" id="option2" autocomplete="off">Active Ads
         </label>
         
         <label class="btn btn-secondary active" onclick="inactiveFunction()">
-            <input type="radio" name="options" id="option3" autocomplete="off">Inactive
+            <input type="radio" name="options" id="option3" autocomplete="off">Inactive Ads
         </label>
 
     </div>
@@ -32,8 +32,38 @@
         <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 
         <div>
-            <button type="button" class="btn btn-primary">Edit</button>
-            <button type="button" class="btn btn-success">Post!</button>
+            <form>
+                <div class="form-group" >
+                    <label>Price:</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Bidding allowed:</label>
+                    <input type="checkbox">
+                </div>
+
+                <div class="form-group" style="width: 75%; float: left;">
+                    <label>Pick up location:</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group" style="width: 24%; float: right;">
+                    <label>Pick up date:</label>
+                    <input class="form-control" type="date">
+                </div>
+                <div class="form-group" style="width: 75%; float: left;">
+                    <label>Return location:</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group" style="width: 24%; float: right;">
+                    <label>Return date:</label>
+                    <input class="form-control" type="date">
+                </div>
+                
+                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-success">Post</button>
+    
+            </form>
+            
         </div>
 
     </div>

@@ -5,7 +5,7 @@
 {% block content %}
     
 <div class="row">
-    <div class="left-column">
+    <div class="left-column" style="width:25%;">
         <div class="card">
             <h3>Condition</h3>
             <div class="custom-control custom-checkbox">
@@ -61,7 +61,7 @@
         </div>
     </div>
     
-    <div class="right-column">
+    <div class="right-column" style="width:75%;">
         <form class="card" method="post" style="padding: 0px;">
         {% csrf_token%}
 
@@ -88,11 +88,9 @@
             <h3>Loan Proposition #{{ forloop.counter }}</h3>
             <h5>{{p.price}}$</h5>
             <p>{{p.stuff_for_lown.description}}</p>
-            <p>start date: {{p.start_date}}&nbsp;&nbsp;&nbsp;&nbsp;end date: {{p.end_date}}</p>
-           
-			<p>Owner : {{p.stuff_for_lown.owner.user_name}}</p>
-			<p>Pick up Adress : {{p.pickupAdress}}</p>
-			<p>Return Adress : {{p.returnAdress}}</p>
+			<p>Owner: {{p.stuff_for_lown.owner.user_name}}</p>
+			<p>Pick up location: {{p.pickupAdress}}&nbsp;&nbsp;&nbsp;&nbsp; Pick up date: {{p.start_date}}</p>
+			<p>Return location: {{p.returnAdress}}&nbsp;&nbsp;&nbsp;&nbsp; Pick up date: {{p.end_date}}</p>
             <div><button type="button" class="btn btn-success">Request!</button></div>
         </div>
         {% endfor %}
