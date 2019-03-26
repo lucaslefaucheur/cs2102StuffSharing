@@ -43,8 +43,14 @@ def search(request):
 		
 	return render(request, 'stuffsharing/search.html', {'form': form})
 
-def post(request):
-    return render(request, 'stuffsharing/post.html')
+def myadsadd(request):
+    return render(request, 'stuffsharing/myadsadd.html')
+
+def myadsactive(request):
+    return render(request, 'stuffsharing/myadsactive.html')
+
+def myadsinactive(request):
+    return render(request, 'stuffsharing/myadsinactive.html')
 
 def about(request):
     return render(request, 'stuffsharing/about.html')

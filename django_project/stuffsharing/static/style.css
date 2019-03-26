@@ -8,12 +8,14 @@ body {
 
 .left-column {
     float: left; 
-    width: 25%;
 }
 
 .right-column {
     float: right; 
-    width: 75%;
+}
+
+.middle-column {
+    float: middle;
 }
 
 .card {

@@ -1,0 +1,57 @@
+{% extends 'stuffsharing/base.html' %}
+
+{% block title %}My Ads{% endblock title %}
+
+{% block content %}
+
+
+
+<div style="margin: auto; text-align: center; padding: 10px;">
+    <form>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+        <label class="btn btn-secondary active" onclick="addFunction()">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked>Add
+        </label>
+        
+        <label class="btn btn-secondary" onclick="activeFunction()">
+             <input type="radio" name="options" id="option2" autocomplete="off">Active
+        </label>
+        
+        <label class="btn btn-secondary" onclick="inactiveFunction()">
+            <input type="radio" name="options" id="option3" autocomplete="off">Inactive
+        </label>
+
+    </div>
+    </form>
+</div>
+
+
+<div style="margin-left: 15%; margin-right: 15%;">
+<div class="card">
+    <h3>Add a stuff</h3>
+    <form action="/action_page.php">
+            <div class="form-group">
+                <label>Name:</label>
+                <input class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Images:</label>
+            </div>
+
+            <button type="submit" class="btn btn-info">Add</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function addFunction() { location.replace("{% url 'stuffsharing-myadsadd' %}") }
+function activeFunction() { location.replace("{% url 'stuffsharing-myadsactive' %}") }
+function inactiveFunction() { location.replace("{% url 'stuffsharing-myadsinactive' %}") }
+</script>
+
+{% endblock content %}
