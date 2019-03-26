@@ -6,21 +6,17 @@
 
 <div style="margin: auto; text-align: center; padding: 10px;">
     <form>
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-
-        <label class="btn btn-secondary" onclick="addFunction()">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked>Add Ad
-        </label>
-        
-        <label class="btn btn-secondary active" onclick="activeFunction()">
-             <input type="radio" name="options" id="option2" autocomplete="off">Active Ads
-        </label>
-        
-        <label class="btn btn-secondary" onclick="inactiveFunction()">
-            <input type="radio" name="options" id="option3" autocomplete="off">Inactive Ads
-        </label>
-
-    </div>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary" onclick="addFunction()">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked>Add Ad
+            </label>
+            <label class="btn btn-secondary active" onclick="activeFunction()">
+                <input type="radio" name="options" id="option2" autocomplete="off">Active Ads
+            </label>  
+            <label class="btn btn-secondary" onclick="inactiveFunction()">
+                <input type="radio" name="options" id="option3" autocomplete="off">Inactive Ads
+            </label>
+        </div>
     </form>
 </div>
 
@@ -30,6 +26,9 @@
         <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
         
         <div>
+            <p>Price: <br>Bidding: </p>
+            <p>Pick up location: <br> Pick up date: </p>
+            <p>Return location: <br> Return date: </p>
             <button type="button" class="btn btn-warning">Remove</button>
         </div>
     </div>
