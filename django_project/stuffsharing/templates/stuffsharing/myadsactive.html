@@ -22,9 +22,25 @@
 
 <div style="margin-left: 15%; margin-right: 15%;">
     <div class="card">
-        <h3>Stuff #1</h3>
+        <h3>Ad Name</h3>
         <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-        
+
+        <div>
+            <img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
+            <img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
+            <img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
+        </div>
+
+        <div class="card">
+            <p>User Id: </p>
+            <p>Contact: </p>
+            <p>Price: </p>
+            <div>
+                <button type="button" class="btn btn-danger">Reject</button>
+                <button type="button" class="btn btn-success">Accept</button>
+            </div>
+        </div>
+
         <div>
             <p>Price: <br>Bidding: </p>
             <p>Pick up location: <br> Pick up date: </p>
@@ -32,24 +48,8 @@
             <button type="button" class="btn btn-warning">Remove</button>
         </div>
     </div>
-    <div class="card">
-        <h3>Stuff #2</h3>
-        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-
-        <div>
-            <button type="button" class="btn btn-warning">Remove</button>
-        </div>
-    </div>
-    <div class="card">
-        <h3>Stuff #3</h3>
-        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-
-        <div>
-            <button type="button" class="btn btn-warning">Remove</button>
-        </div>
-    </div>
 </div>
-
+        
 <script>
 function addFunction() { location.replace("{% url 'stuffsharing-myadsadd' %}") }
 function activeFunction() { location.replace("{% url 'stuffsharing-myadsactive' %}") }

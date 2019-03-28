@@ -55,4 +55,10 @@ def myadsinactive(request):
 def about(request):
     return render(request, 'stuffsharing/about.html')
 
+def myrequests(request):
+    return render(request, 'stuffsharing/myrequests.html')
+
+def currenttransactions(request):
+    return render(request, 'stuffsharing/currenttransactions.html')
+
 

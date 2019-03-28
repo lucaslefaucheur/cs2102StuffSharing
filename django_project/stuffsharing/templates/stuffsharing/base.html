@@ -24,6 +24,9 @@
                     <a class="nav-link" href="{% url 'stuffsharing-myadsadd' %}">My Ads</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'stuffsharing-myrequests' %}">My Requests</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'stuffsharing-about' %}">About</a>
                 </li>
                 <li class="nav-item dropdown">
@@ -31,6 +34,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">My Account</a>
                         <a class="dropdown-item" href="#">My Stats</a>
+                        <a class="dropdown-item" href="{% url 'stuffsharing-currenttransactions' %}">Current Transactions</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Log Out</a>
                     </div>
@@ -41,7 +45,7 @@
     
     {% block content %} {% endblock content %}
     
-    <br><br><br><br><br>
+    
     
     <footer class="page-footer font-small mdb-color pt-4">
         <div class="container text-center text-md-left">

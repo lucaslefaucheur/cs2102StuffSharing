@@ -7,7 +7,6 @@
 <div style="margin: auto; text-align: center; padding: 10px;">
     <form>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-
         <label class="btn btn-secondary" onclick="addFunction()">
             <input type="radio" name="options" id="option1" autocomplete="off" checked>Add Ad
         </label>
@@ -19,14 +18,13 @@
         <label class="btn btn-secondary active" onclick="inactiveFunction()">
             <input type="radio" name="options" id="option3" autocomplete="off">Inactive Ads
         </label>
-
     </div>
     </form>
 </div>
 
 <div style="margin-left: 15%; margin-right: 15%;">
     <div class="card">
-        <h3>Stuff #1</h3>
+        <h3>Ad Name</h3>
         <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 
         <div>
@@ -62,79 +60,14 @@
                     <input class="form-control" type="date">
                 </div>
                 
-                <button type="button" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-success">Post</button>
-            </form>
-        </div>
-
-    </div>
-    <div class="card">
-        <h3>Stuff #2</h3>
-        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-        
-        <div>
-            <form>
-                <div class="form-group" style="width: 24%; float: left;">
-                    <label>Price:</label>
-                    <input class="form-control">
-                </div>
-                <div class="form-group" style="width: 75%; float: right;">
-                    <label>Bidding allowed:</label>
-                    <input class="form-control" type="checkbox">
-                </div>
-
-                <div class="form-group" style="width: 75%; float: left;">
-                    <label>Pick up location:</label>
-                    <input class="form-control">
-                </div>
-                <div class="form-group" style="width: 24%; float: right;">
-                    <label>Pick up date:</label>
-                    <input class="form-control" type="date">
-                </div>
-                <div class="form-group" style="width: 75%; float: left;">
-                    <label>Return location:</label>
-                    <input class="form-control">
-                </div>
-                <div class="form-group" style="width: 24%; float: right;">
-                    <label>Return date:</label>
-                    <input class="form-control" type="date">
-                </div>
-                
-                <button type="button" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-success">Post</button>
-            </form>
-        </div>
-    </div>
-    <div class="card">
-        <h3>Stuff #3</h3>
-        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-        
-        <div>
-            <form>
-                <div class="form-group" style="width: 24%; float: left;">
-                    <label>Price:</label>
-                    <input class="form-control">
-                </div>
-                <div class="form-group" style="width: 75%; float: right;">
-                    <label>Bidding allowed:</label>
-                    <input class="form-control" type="checkbox">
-                </div>
-
-                <div class="form-group" style="width: 75%; float: left;">
-                    <label>Pick up location:</label>
-                    <input class="form-control">
-                </div>
-                <div class="form-group" style="width: 24%; float: right;">
-                    <label>Pick up date:</label>
-                    <input class="form-control" type="date">
-                </div>
-                <div class="form-group" style="width: 75%; float: left;">
-                    <label>Return location:</label>
-                    <input class="form-control">
-                </div>
-                <div class="form-group" style="width: 24%; float: right;">
-                    <label>Return date:</label>
-                    <input class="form-control" type="date">
+                <div>
+                    <label>Selection:</label><br>
+                    <input type="radio" name="selection"> Automatic<br>
+                    <p style="font-size: 10px; padding-left: 20px;">If bidding is allowed: it will select automatically the best offer on the day before the pick up date.<br>
+                    If bidding is not allowed: it will select automatically the first offer.<br></p>
+                    
+                    <input type="radio" name="selection"> Manual<br>
+                    <p style="font-size: 10px; padding-left: 20px;">You need to select an offer under the Active Ads tab. If you haven't chosen anyone on the day before the pick up date, this ad will be removed.</p>                
                 </div>
                 
                 <button type="button" class="btn btn-danger">Delete</button>
