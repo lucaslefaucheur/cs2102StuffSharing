@@ -39,6 +39,24 @@
                         <a class="dropdown-item" href="#">Log Out</a>
                     </div>
                 </li>
+                <li>
+
+                    <div>
+  
+                         {% if user.is_authenticated %}
+                        <button class="w3-button w3-green ">User: {{ user.get_username }}    </button>
+                        
+                    </div>
+                    <div> <p><a href="{% url 'logout' %}">logout</a></p> </div>
+                    </div>
+                        {% else %}
+                        <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button w3-red">Login</a> 
+
+                        </div></div>
+                        {% endif %} 
+                        </div> 
+                        </div>
+                    </li>
             </ul>
         </div>
     </nav>
