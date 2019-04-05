@@ -10,4 +10,6 @@ urlpatterns = [
     path('myrequests/', views.myrequests, name='stuffsharing-myrequests'),
     path('currenttransactions/', views.currenttransactions, name='stuffsharing-currenttransactions'),
     path('about/', views.about, name='stuffsharing-about'),
+    path('myaccount/', views.myaccount, name='stuffsharing-myaccount'),
+
 ]

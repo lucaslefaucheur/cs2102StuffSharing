@@ -82,7 +82,7 @@
 
 		{% for p in propositions %}
         <div class="card">
-            <h3>Loan Proposition #{{ forloop.counter }}</h3>
+            <h3>Loan Proposition #{{ forloop.counter }} : {{p.name}}</h3>
             <h5>{{p.price}}$</h5>
             <p>{{p.stuff_for_lown.description}}</p>
             <div>

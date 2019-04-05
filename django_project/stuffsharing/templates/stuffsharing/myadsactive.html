@@ -3,6 +3,7 @@
 {% block title %}My Ads{% endblock title %}
 
 {% block content %}
+{% if user.is_authenticated %}
 
 <div style="margin: auto; text-align: center; padding: 10px;">
     <form>
@@ -55,5 +56,13 @@ function addFunction() { location.replace("{% url 'stuffsharing-myadsadd' %}") }
 function activeFunction() { location.replace("{% url 'stuffsharing-myadsactive' %}") }
 function inactiveFunction() { location.replace("{% url 'stuffsharing-myadsinactive' %}") }
 </script>
+
+
+{% else %}
+<div>
+    <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button w3-red">Login fist</a> 
+</div>
+{% endif %}
+
 
 {% endblock content %}
