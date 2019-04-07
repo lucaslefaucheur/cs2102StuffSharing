@@ -24,6 +24,7 @@ class Stuff(models.Model):
 	owner=models.ForeignKey(Profile,on_delete=models.CASCADE)
 	description=models.CharField(max_length=255,default='')
 	tags=models.CharField(max_length=1000,default='')
+	image=models.CharField(max_length=1000,default='')
 
 
 class LoanProposition(models.Model):
@@ -36,7 +37,8 @@ class LoanProposition(models.Model):
 	pickupAdress=models.ForeignKey(Adress,on_delete=models.CASCADE,related_name='pickupAdress')
 	returnAdress=models.ForeignKey(Adress,on_delete=models.CASCADE,related_name='returnAdress')
 	available=models.BooleanField(default=True)
-	tags=models.CharField(max_length=1000,default='')
+	bid=models.BooleanField(default=False)
+	
 
 
 
