@@ -20,16 +20,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'stuffsharing-search' %}">Search</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'stuffsharing-myadsadd' %}">My Ads</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'stuffsharing-myrequests' %}">My Requests</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'stuffsharing-about' %}">About</a>
-                </li>
-                {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -46,6 +43,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'stuffsharing-signup' %}">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'stuffsharing-about' %}">About</a>
                 </li>
                 {% endif %} 
             </ul>
