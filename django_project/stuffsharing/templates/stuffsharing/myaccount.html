@@ -12,6 +12,7 @@
     <div class="card">
         <h3>My Account</h3><br>
         <ul>
+<<<<<<< HEAD
            <li><p> Username: {{user.username}} </p></li>
            <li><p> Phone Number:  {{user.profile.phone}} </p></li>
            <li><p> Address: {{user.profile.adress}} </p></li>
@@ -19,6 +20,15 @@
         <p> My shared annoucements</p>
 
        {% for p in loans %}
+=======
+	       <li><p> Username: {{user.username}} </p></li>
+	       <li><p> Phone Number:  {{user.profile.phone}} </p></li>
+	       <li><p> Address: {{user.profile.adress}} </p></li>
+        </ul>
+        <p> My shared annoucements</p>
+
+	   {% for p in loans %}
+>>>>>>> 0130aa9fbaa706b3ae1b4c2c092eb8b9095e80f1
         <div class="card">
             <h3>Loan Proposition #{{ forloop.counter }} : {{p.name}}</h3>
             <h5>{{p.price}}$</h5>
