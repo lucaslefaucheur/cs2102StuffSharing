@@ -6,9 +6,6 @@ import uuid
 # Create your models here.
 
 
-class Adress(models.Model):
-	adress_name=models.CharField(max_length=255,default='',primary_key=True)
-	area=models.CharField(max_length=255)
 
 class Profile(models.Model): 
 	
@@ -17,7 +14,7 @@ class Profile(models.Model):
 	user_name = models.CharField(max_length=255,unique=False)
 	#mail = models.CharField(max_length=255)
 	phone = models.CharField(max_length=12)
-	adress= models.CharField(max_length=1000,default='')
+	address= models.CharField(max_length=1000,default='')
 
 
 

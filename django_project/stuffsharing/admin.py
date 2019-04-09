@@ -1,12 +1,11 @@
 from django.contrib import admin
-from .models import Adress, Profile, Stuff, LoanProposition, LoanRequest
+from .models import Profile, Stuff, LoanProposition, LoanRequest
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import Profile
 
 
 # Register your models here.
-admin.site.register(Adress)
 admin.site.register(Profile)
 admin.site.register(Stuff)
 admin.site.register(LoanProposition)

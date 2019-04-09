@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from stuffsharing.models import Adress, Profile, Stuff, LoanProposition, LoanRequest
+from stuffsharing.models import  Profile, Stuff, LoanProposition, LoanRequest
 from .forms import SearchForm
 from .forms import SignUpForm
 from .forms import UserProfileInfoForm
