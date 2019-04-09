@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Adress, Profile, Stuff, LoanProposition, LoanRequest, Loan
+from .models import Adress, Profile, Stuff, LoanProposition, LoanRequest
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import Profile
@@ -11,7 +11,6 @@ admin.site.register(Profile)
 admin.site.register(Stuff)
 admin.site.register(LoanProposition)
 admin.site.register(LoanRequest)
-admin.site.register(Loan)
 
 class ProfileInline(admin.StackedInline):
 	model = Profile
