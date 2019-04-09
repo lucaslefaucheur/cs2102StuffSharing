@@ -4,6 +4,7 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
 <div style="margin: auto; text-align: center; padding: 10px;">
     <form>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -22,60 +23,81 @@
     </form>
 </div>
 
+
 <div style="margin-left: 15%; margin-right: 15%;">
+	{%for pair in formList%}
     <div class="card">
-        <h3>Ad Name</h3>
-        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-
-        <div>
-            <img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
-            <img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
-            <img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
-        </div>
-        <div>
-            <form>
-                <div class="form-group" style="width: 24%; float: left;">
-                    <label>Price:</label>
-                    <input class="form-control">
+		<form method="post">
+		{% csrf_token%}
+			<div>
+				<h3>Ad Name:</h3>{{pair.1.adName}}
+				<br>
+				<p>{{pair.0.description}}</p>
+			</div>
+			
+			<div>
+				<img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
+				<img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
+				<img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
+			</div>
+			<div><br>
+				{{pair.1.stuff_for_lown.as_hidden}}
+                <div class="form-group" style="width: 50%; float: left;">
+                    {{pair.1.price.label_tag}}
+                    {{pair.1.price}}
                 </div>
-                <div class="form-group" style="width: 75%; float: right;">
-                    <label>Bidding allowed:</label>
-                    <input class="form-control" type="checkbox">
-                </div>
+                <div class="form-group" style="width: 50%; float: left;">
+                    {{pair.1.bid.label_tag}}
+                    {{pair.1.bid}}
+                </div><br>
 
                 <div class="form-group" style="width: 75%; float: left;">
-                    <label>Pick up location:</label>
-                    <input class="form-control">
+                    <label>Pick up location:</label><br>
+					{{pair.1.pickupAddress.label_tag}}
+                    {{pair.1.pickupAddress}}
                 </div>
                 <div class="form-group" style="width: 24%; float: right;">
-                    <label>Pick up date:</label>
-                    <input class="form-control" type="date">
+                    {{pair.1.start_date.label_tag}}
+                    {{pair.1.start_date}}
                 </div>
                 <div class="form-group" style="width: 75%; float: left;">
-                    <label>Return location:</label>
-                    <input class="form-control">
+                    <label>Return location:</label><br>
+                    {{pair.1.returnAddress.label_tag}}
+                    {{pair.1.returnAddress}}
                 </div>
                 <div class="form-group" style="width: 24%; float: right;">
-                    <label>Return date:</label>
-                    <input class="form-control" type="date">
-                </div>
+                    {{pair.1.end_date.label_tag}}
+                    {{pair.1.end_date}}
+                </div><br><br><br><br><br><br><br><br>
                 
-                <div>
-                    <label>Selection:</label><br>
-                    <input type="radio" name="selection"> Automatic<br>
-                    <p style="font-size: 10px; padding-left: 20px;">If bidding is allowed: it will select automatically the best offer on the day before the pick up date.<br>
-                    If bidding is not allowed: it will select automatically the first offer.<br></p>
+                <div class="form-group" style="width: 80%; float: left;">
+                    {{pair.1.selectType.label_tag}}
+					<!--
+                    <input type="radio" name="selection"> Automatic
+					-->
+					{{pair.1.selectType}}
+					<p style="font-size: 10px; padding-left: 20px;float: left;">Automatic:</p>
+                    <p style="font-size: 10px; padding-left: 40px;float: left;">If bidding is allowed: it will select automatically the best offer on the day before the pick up date.<br>
+                    If bidding is not allowed: it will select automatically the first offer.</p><br><br>
                     
-                    <input type="radio" name="selection"> Manual<br>
-                    <p style="font-size: 10px; padding-left: 20px;">You need to select an offer under the Active Ads tab. If you haven't chosen anyone on the day before the pick up date, this ad will be removed.</p>                
-                </div>
-                
-                <button type="button" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-success">Post</button>
-            </form>
-        </div>
+                    <!--<input type="radio" name="selection"> Manual-->
+					<p style="font-size: 10px; padding-left: 20px;float: left;">Manual:</p>
+                    <p style="font-size: 10px; padding-left: 40px;float: left;">You need to select an offer under the Active Ads tab.<br> If you haven't chosen anyone on the day before the pick up date, this ad will be removed.</p><br>                
+				</div>
+                <br><br><br><br><br><br><br><br><br><br>
+                <button type="submit" class="btn btn-danger" style="float: left;" name='submitter' value='Delete'>Delete</button>
+                <button type="submit" class="btn btn-success" style="float: left;" name='submitter' value='Post'>Post</button>
+        </form>
     </div>
 </div>
+{%endfor%}
+</div>
+
+{% else %}
+<div>
+    <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button w3-red">Login first</a> 
+</div>
+{% endif %}
 
 <script>
 function addFunction() { location.replace("{% url 'stuffsharing-myadsadd' %}") }

@@ -4,7 +4,7 @@
 
 {% block content %}
 
-
+{% if user.is_authenticated %}
 
 <div style="margin: auto; text-align: center; padding: 10px;">
     <form>
@@ -26,30 +26,37 @@
     </form>
 </div>
 
-
 <div style="margin-left: 15%; margin-right: 15%;">
-<div class="card">
-    <h3>Add a stuff</h3>
-    <form>
-            <div class="form-group">
-                <label>Name:</label>
-                <input class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Description:</label>
-                <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Images:</label><br>
-                <input type="file" name="pic" accept="image/*"><br>
-                <input type="file" name="pic" accept="image/*"><br>
-                <input type="file" name="pic" accept="image/*">
-            </div>
+	<div class="card">
+		<h3>Add a stuff</h3>
+			<form method="post">
+				{% csrf_token%}
+				<div class="form-group">
+					{{form.tags.label_tag}}
+					{{form.tags}}
+				</div>
+				<div class="form-group">
+					{{form.description.label_tag}}
+					{{form.description}}
+				</div>
+				<div class="form-group">
+				<label>Images:</label><br>
+					{{form.pic1}}<br>
+					{{form.pic2}}<br>
+					{{form.pic3}}
+				</div>
+				<div class="form-group">
 
-            <button type="submit" class="btn btn-info">Add</button>
-        </form>
+				<button type="submit" class="btn btn-info">Add</button>
+			</form>
     </div>
 </div>
+
+{% else %}
+<div>
+    <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button w3-red">Login first</a> 
+</div>
+{% endif %}
 
 <script>
 function addFunction() { location.replace("{% url 'stuffsharing-myadsadd' %}") }

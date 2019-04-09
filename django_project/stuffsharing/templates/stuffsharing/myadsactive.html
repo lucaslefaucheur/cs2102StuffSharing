@@ -3,8 +3,8 @@
 {% block title %}My Ads{% endblock title %}
 
 {% block content %}
-{% if user.is_authenticated %}
 
+{% if user.is_authenticated %}
 <div style="margin: auto; text-align: center; padding: 10px;">
     <form>
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -21,34 +21,48 @@
     </form>
 </div>
 
+
 <div style="margin-left: 15%; margin-right: 15%;">
+	{% for triplet in propsAndForms %}
     <div class="card">
-        <h3>Ad Name</h3>
-        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+        <h3>{{triplet.0.name}}</h3>
+        <p>{{triplet.0.stuff_for_lown.description}}</p>
 
         <div>
             <img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
             <img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
             <img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
         </div>
-
+		
+		{%for pair in triplet.2%}
         <div class="card">
-            <p>User Id: </p>
-            <p>Contact: </p>
-            <p>Price: </p>
+            <p>User Id: {{pair.0.borrower.name}}</p>
+            <p>Contact: {{pair.0.borrower.phone}}</p>
+            <p>Price: {{pair.0.price}}</p>
+			<form method="post">
+			{% csrf_token%}
             <div>
-                <button type="button" class="btn btn-danger">Reject</button>
-                <button type="button" class="btn btn-success">Accept</button>
+				{{pair.1.loan_request_id.as_hidden}}
+                <button type="submit" class="btn btn-danger" name="submitter" value="reject">Reject</button>
+                <button type="submit" class="btn btn-success" name="submitter" value="accept">Accept</button>
             </div>
+			</form>
         </div>
+		{%endfor%}
 
+		<br>
         <div>
-            <p>Price: <br>Bidding: </p>
-            <p>Pick up location: <br> Pick up date: </p>
-            <p>Return location: <br> Return date: </p>
-            <button type="button" class="btn btn-warning">Remove</button>
+            <p>Price: {{triplet.0.price}} $<br>Bidding: {{triplet.0.bid}}</p>
+            <p>Pick up location: {{triplet.0.pickupAdress.adress_name}}<br> Pick up date: {{triplet.0.start_date}}</p>
+            <p>Return location: {{triplet.0.returnAdress.adress_name}}<br> Return date: {{triplet.0.end_date}}</p>
+			<form method="post">
+			{% csrf_token%}
+			{{triplet.1.loan_prop_id.as_hidden}}
+            <button type="submit" class="btn btn-warning" name="submitter" value="remove">Remove</button>
+			</form>
         </div>
     </div>
+	{% endfor %}
 </div>
         
 <script>
@@ -60,7 +74,7 @@ function inactiveFunction() { location.replace("{% url 'stuffsharing-myadsinacti
 
 {% else %}
 <div>
-    <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button w3-red">Login fist</a> 
+    <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button w3-red">Login first</a> 
 </div>
 {% endif %}
 
