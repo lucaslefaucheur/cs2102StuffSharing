@@ -95,7 +95,7 @@ def signup(request):
 
         	#user = User.objects.create_user(username=username,password=raw_password)
         	user = user_form.save()
-        	user.set_password(user.password)
+        	#user.set_password(user.password)
         	user.save()
         	profile = profile_form.save(commit=False)
         	profile.user = user
