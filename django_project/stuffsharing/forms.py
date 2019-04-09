@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from stuffsharing.models import Profile
-
+import PIL
 
 class SignUpForm(UserCreationForm):
   
@@ -23,9 +23,9 @@ class MyAdsAddForm(forms.Form):
 	tags = forms.CharField(label = 'Item tags:', max_length=1000,widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"tag1,tag2,..."}))
 	name=forms.CharField(label = 'Item name:', max_length=1000,widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"name"}))
 	description = forms.CharField(label = 'Item Desctiption:', widget=forms.Textarea(attrs={'class': "form-control", 'rows':'3','type':"Description",'placeholder':"item description"}))
-	pic1 = forms.FileField(label = '', required=False)
-	pic2 = forms.FileField(label = '', required=False)
-	pic3 = forms.FileField(label = '', required=False)
+	#pic1 = forms.ImageField(label = 'Item image', required=False)
+	#pic2 = forms.FileField(label = '', required=False)
+	#pic3 = forms.FileField(label = '', required=False)
 	
 class MyAdsInactiveForm(forms.Form):
 	stuff_for_lown=forms.IntegerField()

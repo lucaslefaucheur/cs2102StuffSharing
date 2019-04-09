@@ -29,7 +29,7 @@
 <div style="margin-left: 15%; margin-right: 15%;">
 	<div class="card">
 		<h3>Add a stuff</h3>
-			<form method="post">
+			<form method="post" enctype="multipart/form-data">
 				{% csrf_token%}
 				<div class="form-group">
 					{{form.name.label_tag}}
@@ -45,12 +45,9 @@
 				</div>
 				<div class="form-group">
 				<label>Images:</label><br>
-					{{form.pic1}}<br>
-					{{form.pic2}}<br>
-					{{form.pic3}}
-				</div>
-				<div class="form-group">
-
+				
+				
+				<input type="file" name="myfile"></div>
 				<button type="submit" class="btn btn-info">Add</button>
 			</form>
     </div>

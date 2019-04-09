@@ -13,7 +13,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 import uuid
 from django.contrib.auth import login, authenticate
-
+import os
+from django.core.files.base import ContentFile
+import PIL
 
 @csrf_protect
 def home(request):
@@ -34,7 +36,6 @@ def home(request):
 				return render(request, 'stuffsharing/search.html', {'form': form,'propositions':propositions})
 	else:
 		form=SearchForm()
-		
 	return render(request, 'stuffsharing/home.html', {'form': form})
 
 @csrf_protect
@@ -69,19 +70,25 @@ def myadsadd(request):
 				d=form.cleaned_data['description']
 				o=request.user.profile
 				s=Stuff(tags=t,description=d,owner=o,name=name)
+				pic1=request.FILES['myfile']
+				#pic1=form.cleaned_data['pic1']
+				print('pic',pic1)
+				if pic1!=None or pic1!='':
+					image_path='Storage/%s/'%(request.user.username)+name+str(pic1)[:-4]
+					save_path = './stuffsharing/static/'+image_path
+					
+					print('path',save_path)
+					directory = os.path.dirname(save_path)
+					if not os.path.exists(directory):
+						os.makedirs(directory)      
+
+					fout = open(save_path, 'wb+')
+					print(str(request.FILES['myfile']))
+					file_content = ContentFile( pic1.read() )
+					for chunk in file_content.chunks():
+						fout.write(chunk)
+					s.image=image_path
 				s.save()
-				'''
-				if 'myfile' in request.FILES:
-					save_path = './stuffsharing/Storage/%s/%s/'%(request.user.username,s.name)
-			        
-			        full_filename =request.FILES['myfile'].name
-			        full_path=save_path+full_filename
-			        fout = open(full_path, 'wb+')
-			        file_content = ContentFile( request.FILES['myfile'].read() )
-			        for chunk in file_content.chunks():
-				        fout.write(chunk)'''
-
-
 
 	form=MyAdsAddForm()
 	return render(request, 'stuffsharing/myadsadd.html', {'form': form})

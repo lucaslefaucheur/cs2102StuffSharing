@@ -37,9 +37,9 @@
 			</div>
 			
 			<div>
-				<img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
-				<img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
-				<img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
+				{% load static %}
+            <img style="height:150px;" src="{% static pair.0.image %}">
+           
 			</div>
 			<div><br>
 				{{pair.1.stuff_for_lown.as_hidden}}
