@@ -18,24 +18,6 @@
            <li><p> Phone Number:  {{user.profile.phone}} </p></li>
            <li><p> Address: {{user.profile.adress}} </p></li>
         </ul>
-        <p> My shared annoucements</p>
-
-       {% for p in loans %}
-        <div class="card">
-            <h3>Loan Proposition #{{ forloop.counter }} : {{p.name}}</h3>
-            <h5>{{p.price}}$</h5>
-            <p>{{p.stuff_for_lown.description}}</p>
-            <div>
-                <img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
-                <img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
-                <img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
-            </div>
-            <p>Owner: {{p.owner.user_name}}</p>
-            <p>Pick up location: {{p.pickupAdress}} <br>Pick up date: {{p.start_date}}</p>
-            <p>Return location: {{p.returnAdress}} <br>Return date: {{p.end_date}}</p>
-            
-        </div>
-        {% endfor %}
     </div>
 </div>
 
