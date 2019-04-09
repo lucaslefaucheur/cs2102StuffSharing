@@ -11,10 +11,10 @@ class SignUpForm(UserCreationForm):
         fields = ('username','email')
        
 class UserProfileInfoForm(forms.ModelForm):
-	
+
      class Meta():
          model = Profile
-         fields = ('user_name','phone','address')
+         fields = ('Name','phone','address')
 
 class SearchForm(forms.Form):
 	search=forms.CharField(max_length=30,widget=forms.TextInput(attrs={'class': "form-control form-control-lg form-control-borderless",'type':"Search",'placeholder':"Search stuffs or keywords"}))
