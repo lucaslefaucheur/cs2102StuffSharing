@@ -52,10 +52,6 @@
                 <input type="checkbox" class="custom-control-input" id="checkbox10" checked>
                 <label class="custom-control-label" for="checkbox10">10$ - 20$</label>
             </div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="checkbox11" checked>
-                <label class="custom-control-label" for="checkbox11">Bidding</label>
-            </div>
             <br>
             <button type="button" class="btn btn-secondary">Update</button>
         </div>
@@ -92,7 +88,10 @@
 			<p>Owner: {{p.owner.user.username}}</p> 
 			<p>Pick up location: {{p.pickupAdress}} <br>Pick up date: {{p.start_date}}</p>
 			<p>Return location: {{p.returnAdress}} <br>Return date: {{p.end_date}}</p>
-            <div><button type="button" class="btn btn-success">Request!</button></div>
+            <div>
+                <input  class="form-control" style="width: 90px;">
+                <button type="button" class="btn btn-success">Request!</button>
+            </div>
         </div>
         {% endfor %}
 
