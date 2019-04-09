@@ -64,12 +64,25 @@ def myadsadd(request):
 		if request.method=='POST':
 			form=MyAdsAddForm(request.POST)
 			if form.is_valid():
+				name=form.cleaned_data['name']
 				t=form.cleaned_data['tags']
 				d=form.cleaned_data['description']
 				o=request.user.profile
-				s=Stuff(tags=t,description=d,owner=o)
+				s=Stuff(tags=t,description=d,owner=o,name=name)
 				s.save()
-				
+				'''
+				if 'myfile' in request.FILES:
+					save_path = './stuffsharing/Storage/%s/%s/'%(request.user.username,s.name)
+			        
+			        full_filename =request.FILES['myfile'].name
+			        full_path=save_path+full_filename
+			        fout = open(full_path, 'wb+')
+			        file_content = ContentFile( request.FILES['myfile'].read() )
+			        for chunk in file_content.chunks():
+				        fout.write(chunk)'''
+
+
+
 	form=MyAdsAddForm()
 	return render(request, 'stuffsharing/myadsadd.html', {'form': form})
 
@@ -130,7 +143,7 @@ def myadsinactive(request):
 					#Stuff.objects.raw('SELECt * FROM stuffsharing_stuff WHERE id = %s',[sid]).delete()
 				else:
 					sid = form.cleaned_data['stuff_for_lown']
-					aname = form.cleaned_data['adName']
+					#aname = form.cleaned_data['adName']
 					sdate = form.cleaned_data['start_date']
 					edate = form.cleaned_data['end_date']
 					pr=form.cleaned_data['price']
@@ -138,7 +151,7 @@ def myadsinactive(request):
 					raddr = form.cleaned_data['returnAddress']
 					b=form.cleaned_data['bid']
 					stuff = Stuff.objects.raw('SELECT * FROM stuffsharing_stuff WHERE id = %s',[sid])[0]
-					newloanprop=LoanProposition(owner=o,name=aname,stuff_for_lown=stuff, start_date=sdate,end_date=edate,price=pr,pickupAdress=paddr,returnAdress=raddr,available=True,bid=b)
+					newloanprop=LoanProposition(owner=o,stuff_for_lown=stuff, start_date=sdate,end_date=edate,price=pr,pickupAdress=paddr,returnAdress=raddr,available=True,bid=b)
 					newloanprop.save()
 				
 		inactiveStuff = Stuff.objects.raw('SELECT * from stuffsharing_stuff S WHERE owner_id = %s AND NOT EXISTS(SELECT 1 FROM stuffsharing_LoanProposition WHERE stuff_for_lown_id = S.id)', [o.user_id])
@@ -190,4 +203,3 @@ def signup(request):
 
 
 
-    

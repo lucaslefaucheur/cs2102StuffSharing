@@ -19,6 +19,7 @@ class Profile(models.Model):
 
 
 class Stuff(models.Model):
+	name=models.CharField(max_length=255,default='')
 	owner=models.ForeignKey(Profile,to_field='user_id',on_delete=models.CASCADE)
 	description=models.CharField(max_length=255,default='')
 	tags=models.CharField(max_length=1000,default='')
@@ -27,7 +28,7 @@ class Stuff(models.Model):
 
 class LoanProposition(models.Model):
 	owner=models.ForeignKey(Profile,to_field='user_id',on_delete=models.CASCADE,default='')
-	name=models.CharField(max_length=255,default='')
+	
 	stuff_for_lown=models.ForeignKey(Stuff,on_delete=models.CASCADE)
 	start_date=models.DateField('Data available')
 	end_date=models.DateField('Data end return')

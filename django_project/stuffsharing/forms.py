@@ -21,6 +21,7 @@ class SearchForm(forms.Form):
 	
 class MyAdsAddForm(forms.Form):
 	tags = forms.CharField(label = 'Item tags:', max_length=1000,widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"tag1,tag2,..."}))
+	name=forms.CharField(label = 'Item name:', max_length=1000,widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"name"}))
 	description = forms.CharField(label = 'Item Desctiption:', widget=forms.Textarea(attrs={'class': "form-control", 'rows':'3','type':"Description",'placeholder':"item description"}))
 	pic1 = forms.FileField(label = '', required=False)
 	pic2 = forms.FileField(label = '', required=False)
@@ -28,7 +29,7 @@ class MyAdsAddForm(forms.Form):
 	
 class MyAdsInactiveForm(forms.Form):
 	stuff_for_lown=forms.IntegerField()
-	adName=forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"Ad name"}), required=False)
+	#adName=forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"Ad name"}), required=False)
 	start_date=forms.DateField(label = 'Pick up date:', required=False,widget=forms.widgets.SelectDateWidget())
 	end_date=forms.DateField(label = 'Return date:', required=False,widget=forms.widgets.SelectDateWidget())
 	price=forms.FloatField(label = 'Price', required=False)

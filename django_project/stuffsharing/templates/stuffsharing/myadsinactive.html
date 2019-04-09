@@ -30,9 +30,10 @@
 		<form method="post">
 		{% csrf_token%}
 			<div>
-				<h3>Ad Name:</h3>{{pair.1.adName}}
-				<br>
-				<p>{{pair.0.description}}</p>
+				
+				<strong>
+				<h3>{{pair.0.name}}</h3> </strong>
+                <p>{{pair.0.description}}</p>
 			</div>
 			
 			<div>
