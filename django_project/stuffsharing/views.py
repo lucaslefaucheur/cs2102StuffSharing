@@ -17,7 +17,8 @@ def home(request):
 		if form.is_valid():
 			search=form.cleaned_data['search']
 			
-			result=LoanProposition.objects.filter(tags__contains=search)
+			#result=LoanProposition.objects.filter(tags__contains=search)
+			result=LoanProposition.objects.raw('Select * from stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown=S.id WHERE L.tags LIKE "%guitar"')
 			print(result)
 			if len(result)!=0:
 				propositions=[]
@@ -37,8 +38,8 @@ def search(request):
 		if form.is_valid():
 			search=form.cleaned_data['search']
 			#result=LoanProposition.objects.filter(tags__contains=search)
-			print("Select * from stuffsharing_LoanProposition WHERE tags LIKE {l}").format(l='%'+str(search))
-			result=LoanProposition.objects.raw('Select * from stuffsharing_LoanProposition WHERE tags LIKE ' + '%' + search)
+			#print("Select * from stuffsharing_LoanProposition WHERE tags LIKE {l}").format(l='%'+str(search))
+			result=LoanProposition.objects.raw('Select * from stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown=S.id WHERE L.tags LIKE "%guitar"')
 			print(result)
 			if len(result)!=0:
 				propositions=[]
@@ -50,6 +51,7 @@ def search(request):
 		form=SearchForm()
 		
 	return render(request, 'stuffsharing/search.html', {'form': form})
+
 
 def myadsadd(request):
 
