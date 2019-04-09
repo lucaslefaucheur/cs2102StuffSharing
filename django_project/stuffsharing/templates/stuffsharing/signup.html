@@ -2,11 +2,18 @@
 
 {% block title %}Signup{% endblock title %}
 {% block content %}
-  <h2>Sign up</h2>
-  <form enctype="multipart/form-data" method="POST">
-          {% csrf_token %}
-          {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <input type="submit" name="" value="Register">
+
+<div style="margin-left: 15%; margin-right: 15%;">
+    <div class="card">
+        <h3>Sign up</h3><br>
+        <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            <input type="submit" name="" class="btn btn-success" value="Signup">
         </form>
+    </div>
+</div>
+
+
 {% endblock %}
