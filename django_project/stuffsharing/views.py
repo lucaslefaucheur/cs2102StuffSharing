@@ -78,11 +78,7 @@ def currenttransactions(request):
     return render(request, 'stuffsharing/currenttransactions.html')
 
 def myaccount(request):
-	if request.user.is_authenticated :
-		loan_list=LoanProposition.objects.filter(owner=request.user.profile)
-		return render(request, 'stuffsharing/myaccount.html',{'loans':loan_list})
-	else:
-		return render(request, 'stuffsharing/myaccount.html')
+	return render(request, 'stuffsharing/myaccount.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -96,6 +92,7 @@ def signup(request):
         	user.save()
         	profile = profile_form.save(commit=False)
         	profile.user = user
+        	#profile.user_name=form.cleaned_data['Name']
         	profile.save()
         	registered = True
         	if registered : 

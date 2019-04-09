@@ -11,7 +11,7 @@ class Profile(models.Model):
 	
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	#name = models.CharField(max_length=255)
-	user_name = models.CharField(max_length=255,unique=False)
+	Name = models.CharField(max_length=255,unique=False)
 	#mail = models.CharField(max_length=255)
 	phone = models.CharField(max_length=12)
 	address= models.CharField(max_length=1000,default='')
