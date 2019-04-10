@@ -183,6 +183,9 @@ def currenttransactions(request):
 def myaccount(request):
 	return render(request, 'stuffsharing/myaccount.html')
 
+def mystats(request):
+	return render(request, 'stuffsharing/mystats.html')
+
 def signup(request):
     if request.method == 'POST':
         user_form = SignUpForm(request.POST)

@@ -12,5 +12,5 @@ urlpatterns = [
     path('about/', views.about, name='stuffsharing-about'),
     path('myaccount/', views.myaccount, name='stuffsharing-myaccount'),
     path('signup/',views.signup,name='stuffsharing-signup'),
-
+    path('mystats/',views.mystats,name='stuffsharing-mystats'),
 ]

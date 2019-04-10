@@ -1,6 +1,6 @@
 {% extends 'stuffsharing/base.html' %}
 
-{% block title %}My Account{% endblock title %}
+{% block title %}My Stats{% endblock title %}
 
 {% block content %}
 {% load static %}
@@ -10,14 +10,8 @@
 
 <div style="margin-left: 15%; margin-right: 15%;">
     <div class="card">
-        <h3>My Account</h3><br>
-        <ul>
-           <li><p> Username: {{user.username}} </p></li>
-           <li><p> Name: {{user.profile.Name}} </p></li>
-
-           <li><p> Phone Number:  {{user.profile.phone}} </p></li>
-           <li><p> Address: {{user.profile.adress}} </p></li>
-        </ul>
+        <h3>My Stats</h3><br>
+        
     </div>
 </div>
 
