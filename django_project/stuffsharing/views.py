@@ -142,6 +142,8 @@ def myadsactive(request):
 						lprop = lreq.original_proposition
 						lprop.available=False
 						lprop.save()
+						with connection.cursor() as cursor:
+							cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE original_proposition_id = %s",[lprop.id])
 						newloan = Loan(loan=lreq)
 						newloan.save()
 					else:
@@ -156,7 +158,7 @@ def myadsactive(request):
 				lrequests=LoanRequest.objects.raw('SELECT * FROM stuffsharing_loanrequest WHERE original_proposition_id = %s',[prop.id])
 				reqAndForm=[]
 				for req in lrequests:
-					reqAndForm.append((req, MyAdsActiveBidForm(initial={'Loan_request_id': req.id})))
+					reqAndForm.append((req, MyAdsActiveBidForm(initial={'loan_request_id': req.id})))
 				propsAndForms.append((prop, MyAdsActiveAdForm(initial={'loan_prop_id': prop.id}), reqAndForm))
 			return render(request, 'stuffsharing/myadsactive.html', {'propsAndForms': propsAndForms})
 		else:
