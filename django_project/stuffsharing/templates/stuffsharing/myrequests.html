@@ -14,10 +14,10 @@
         <h5>{{pair.0.original_Proposition.price}}$</h5>
         <p>{{pair.0.original_Proposition.stuff_for_lown.description}}</p>
         <div>
-            <img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
-            <img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
-            <img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
-        </div><br>
+            {% load static %}
+            <img style="height:150px;" src="{% static pair.0.original_Proposition.stuff_for_lown.image %}">
+        </div>
+        <br>
 		<div>
 			<p>Owner: {{pair.0.original_Proposition.owner.Name}}</p>
 			<p>Pick up location: {{pair.0.original_Proposition.pickupAdress}} <br>Pick up date: {{pair.0.original_Proposition.start_date}}</p>
