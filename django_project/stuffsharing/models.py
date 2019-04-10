@@ -38,11 +38,9 @@ class LoanProposition(models.Model):
 	available=models.BooleanField(default=True)
 	
 	
-
-
-
 class LoanRequest(models.Model):
     original_Proposition = models.ForeignKey(LoanProposition, on_delete=models.CASCADE)
     borrower = models.ForeignKey(Profile,to_field='user_id', on_delete=models.CASCADE)
     accepted=models.BooleanField(default=False)
     price=models.FloatField()
+    
