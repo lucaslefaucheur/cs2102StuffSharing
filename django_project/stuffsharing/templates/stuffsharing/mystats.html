@@ -5,13 +5,22 @@
 {% block content %}
 {% load static %}
 
-
 {% if user.is_authenticated %}
 
 <div style="margin-left: 15%; margin-right: 15%;">
     <div class="card">
         <h3>My Stats</h3><br>
+        <h5>My Ads</h5>
+        <p>Number of inactive ads: </p>
+        <p>Number of active ads: </p>
+        <p>Most frequent tags used: </p>
+        <p>Average duration of your ads: </p>
         
+        <br>
+        <h5>My Requests</h5>
+        <p>Number of requests: </p>
+        <p>Most frequent tags requested: </p>
+        <p>Average duration of your requests: </p>
     </div>
 </div>
 
