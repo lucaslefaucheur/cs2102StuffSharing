@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from stuffsharing.models import Profile
-import PIL
+#import PIL
 
 class SignUpForm(UserCreationForm):
   

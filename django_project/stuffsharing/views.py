@@ -15,7 +15,7 @@ import uuid
 from django.contrib.auth import login, authenticate
 import os
 from django.core.files.base import ContentFile
-import PIL
+#import PIL
 
 @csrf_protect
 def home(request):
