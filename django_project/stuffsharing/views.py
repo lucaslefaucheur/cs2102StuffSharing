@@ -156,9 +156,9 @@ def myadsinactive(request):
 					pr=form.cleaned_data['price']
 					paddr = form.cleaned_data['pickupAddress']
 					raddr = form.cleaned_data['returnAddress']
-					b=form.cleaned_data['bid']
+					
 					stuff = Stuff.objects.raw('SELECT * FROM stuffsharing_stuff WHERE id = %s',[sid])[0]
-					newloanprop=LoanProposition(owner=o,stuff_for_lown=stuff, start_date=sdate,end_date=edate,price=pr,pickupAdress=paddr,returnAdress=raddr,available=True,bid=b)
+					newloanprop=LoanProposition(owner=o,stuff_for_lown=stuff, start_date=sdate,end_date=edate,price=pr,pickupAdress=paddr,returnAdress=raddr,available=True)
 					newloanprop.save()
 				
 		inactiveStuff = Stuff.objects.raw('SELECT * from stuffsharing_stuff S WHERE owner_id = %s AND NOT EXISTS(SELECT 1 FROM stuffsharing_LoanProposition WHERE stuff_for_lown_id = S.id)', [o.user_id])

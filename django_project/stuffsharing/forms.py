@@ -35,7 +35,7 @@ class MyAdsInactiveForm(forms.Form):
 	price=forms.FloatField(label = 'Price', required=False)
 	pickupAddress=forms.CharField(label='Address',max_length=255, required=False)
 	returnAddress=forms.CharField(label='Address',max_length=255, required=False)
-	bid=forms.BooleanField(label='Bidding allowed',initial=False, required=False)
+	
 	selectType=forms.ChoiceField(label='Selection', choices=[('auto','automatic'),('manual','manual')], widget=forms.RadioSelect,required=False)
 	submitter=forms.CharField()
 	

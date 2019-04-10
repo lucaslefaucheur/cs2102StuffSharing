@@ -36,7 +36,7 @@ class LoanProposition(models.Model):
 	pickupAdress=models.CharField(max_length=1000,default='')
 	returnAdress=models.CharField(max_length=1000,default='')
 	available=models.BooleanField(default=True)
-	bid=models.BooleanField(default=False)
+	
 	
 
 
@@ -46,26 +46,3 @@ class LoanRequest(models.Model):
     borrower = models.ForeignKey(Profile,to_field='user_id', on_delete=models.CASCADE)
     accepted=models.BooleanField(default=False)
     price=models.FloatField()
-'''
-class Loan(models.Model):
-	loan=models.ForeignKey(LoanRequest,on_delete=models.CASCADE)
-	status=models.BooleanField(default=True)
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-'''
-'''@receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-    instance.profile.save()'''
-    #signals.post_save.connect(create_user_profile, sender=User)
-
