@@ -139,13 +139,11 @@ def myadsactive(request):
 						lreq = LoanRequest.objects.raw('SELECT * FROM stuffsharing_loanrequest WHERE id = %s',[r_id])[0]
 						lreq.accepted=True
 						lreq.save()
-						lprop = lreq.original_proposition
+						lprop = lreq.original_Proposition
 						lprop.available=False
 						lprop.save()
 						with connection.cursor() as cursor:
-							cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE original_proposition_id = %s",[lprop.id])
-						newloan = Loan(loan=lreq)
-						newloan.save()
+							cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE NOT id = %s AND original_proposition_id = %s",[r_id,lprop.id])
 					else:
 						with connection.cursor() as cursor:
 							cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE id = %s",[r_id])
