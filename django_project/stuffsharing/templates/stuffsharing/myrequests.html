@@ -6,21 +6,39 @@
 
 {% load static %}
 
+{% if user.is_authenticated %}
 <div style="margin-left: 15%; margin-right: 15%;">
+{%for pair in reqAndForm%}
     <div class="card">
-        <h3>Ad Name</h3>
-        <h5>{{p.price}}$</h5>
-        <p>{{p.stuff_for_lown.description}}</p>
+        <h3>{{pair.0.original_Proposition.name}}</h3>
+        <h5>{{pair.0.original_Proposition.price}}$</h5>
+        <p>{{pair.0.original_Proposition.stuff_for_lown.description}}</p>
         <div>
             <img style="height:150px;" src="https://media.musiciansfriend.com/is/image/MMGS7/LX1E-Little-Martin-Acoustic-Electric-Guitar-Natural/J29802000001000-00-500x500.jpg">
             <img style="height:150px;" src="https://www.long-mcquade.com/files/7100/lg_e73803defd0ce20635fb6ef2f6e7a3df.JPG">
             <img style="height:150px;" src="https://musicamusicinstrument.com/wp-content/uploads/2018/03/53.jpg">
-        </div>
-		<p>Owner: {{p.stuff_for_lown.owner.user_name}}</p>
-		<p>Pick up location: {{p.pickupAdress}} <br>Pick up date: {{p.start_date}}</p>
-		<p>Return location: {{p.returnAdress}} <br>Return date: {{p.end_date}}</p>
-        <div><button type="button" class="btn btn-warning">Remove</button></div>
+        </div><br>
+		<div>
+			<p>Owner: {{pair.0.original_Proposition.owner.Name}}</p>
+			<p>Pick up location: {{pair.0.original_Proposition.pickupAdress}} <br>Pick up date: {{pair.0.original_Proposition.start_date}}</p>
+			<p>Return location: {{pair.0.original_Proposition.returnAdress}} <br>Return date: {{pair.0.original_Proposition.end_date}}</p>
+		</div>
+		
+        <div>
+			<p>My bid: {{pair.0.price}}$</p>
+			<form method="post">
+				{% csrf_token%}
+				{{pair.1.loan_request_id.as_hidden}}
+				<button type="submit" class="btn btn-warning" name="submitter" value="remove">Remove</button>
+			</form>
+		</div>
     </div>
+{%endfor%}
 </div>
 
+{% else %}
+<div>
+    <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button w3-red">Login first</a> 
+</div>
+{% endif %}
 {% endblock content %}

@@ -7,6 +7,7 @@ from .forms import MyAdsAddForm
 from .forms import MyAdsInactiveForm
 from .forms import MyAdsActiveBidForm
 from .forms import MyAdsActiveAdForm
+from .forms import BidForm
 from django.db import connection
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.forms import UserCreationForm
@@ -20,20 +21,33 @@ from django.core.files.base import ContentFile
 @csrf_protect
 def home(request):
 	if request.method=='POST':
-		form=SearchForm(request.POST)
-		if form.is_valid():
-			search='%'+form.cleaned_data['search']+'%'
-			query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s', [search])
-			result=[i for i in query]
+		if 'submitRequest' in request.POST:
+			if request.user.is_authenticated:
+				borrow=request.user.profile
+				form=BidForm(request.POST)
+				if form.is_valid():
+					prop_id = form.cleaned_data['loan_prop_id']
+					bid_price = form.cleaned_data['price']
+					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
+					newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
+					newreq.save()
+				form=SearchForm()
+				return render(request, 'stuffsharing/home.html', {'form': form})
+		else:
+			form=SearchForm(request.POST)
+			if form.is_valid():
+				search='%'+form.cleaned_data['search']+'%'
+				query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s', [search])
+				result=[i for i in query]
 
-			if len(result)!=0:
-				propositions=[]
-				for proposition in result:
-					if proposition.available:
-						propositions.append(proposition)
-				print(propositions)
-				print('##################################')
-				return render(request, 'stuffsharing/search.html', {'form': form,'propositions':propositions})
+				if len(result)!=0:
+					propositions=[]
+					for proposition in result:
+						if proposition.available:
+							propositions.append((proposition, BidForm(initial={'loan_prop_id':proposition.id})))
+					print(propositions)
+					print('##################################')
+					return render(request, 'stuffsharing/search.html', {'form': form,'propositions':propositions})
 	else:
 		form=SearchForm()
 	return render(request, 'stuffsharing/home.html', {'form': form})
@@ -41,20 +55,33 @@ def home(request):
 @csrf_protect
 def search(request):
 	if request.method=='POST':
-		form=SearchForm(request.POST)
-		if form.is_valid():
-			search='%'+form.cleaned_data['search']+'%'
-			query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s', [search])
-			result=[i for i in query]
+		if 'submitRequest' in request.POST:
+			if request.user.is_authenticated:
+				borrow=request.user.profile
+				form=BidForm(request.POST)
+				if form.is_valid():
+					prop_id = form.cleaned_data['loan_prop_id']
+					bid_price = form.cleaned_data['price']
+					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
+					newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
+					newreq.save()
+				form=SearchForm()
+				return render(request, 'stuffsharing/home.html', {'form': form})
+		else:
+			form=SearchForm(request.POST)
+			if form.is_valid():
+				search='%'+form.cleaned_data['search']+'%'
+				query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s', [search])
+				result=[i for i in query]
 
-			if len(result)!=0:
-				propositions=[]
-				for proposition in result:
-					if proposition.available:
-						propositions.append(proposition)
-				print(propositions)
-				print('##################################')
-				return render(request, 'stuffsharing/search.html', {'form': form,'propositions':propositions})
+				if len(result)!=0:
+					propositions=[]
+					for proposition in result:
+						if proposition.available:
+							propositions.append((proposition, BidForm(initial={'loan_prop_id':proposition.id})))
+					print(propositions)
+					print('##################################')
+					return render(request, 'stuffsharing/search.html', {'form': form,'propositions':propositions})
 	else:
 		form=SearchForm()
 	return render(request, 'stuffsharing/search.html', {'form': form})
@@ -175,7 +202,20 @@ def about(request):
     return render(request, 'stuffsharing/about.html')
 
 def myrequests(request):
-    return render(request, 'stuffsharing/myrequests.html')
+	if request.user.is_authenticated :
+		o=request.user.profile
+		if request.method=='POST':
+			form=MyAdsActiveBidForm(request.POST)
+			if form.is_valid():
+				r_id=form.cleaned_data['loan_request_id']
+				with connection.cursor() as cursor:
+					cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE id = %s",[r_id])
+		reqList=LoanRequest.objects.raw("SELECT * FROM stuffsharing_loanrequest WHERE borrower_id = %s",[o.user_id])
+		reqAndForm=[]
+		for req in reqList:
+			reqAndForm.append((req,MyAdsActiveBidForm(initial={'loan_request_id': req.id})))
+		return render(request, 'stuffsharing/myrequests.html',{'reqAndForm':reqAndForm})
+	return render(request, 'stuffsharing/myrequests.html')
 
 def currenttransactions(request):
     return render(request, 'stuffsharing/currenttransactions.html')

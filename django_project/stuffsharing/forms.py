@@ -18,6 +18,11 @@ class UserProfileInfoForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
 	search=forms.CharField(max_length=30,widget=forms.TextInput(attrs={'class': "form-control form-control-lg form-control-borderless",'type':"Search",'placeholder':"Search stuffs or keywords"}))
+
+class BidForm(forms.Form):
+	price=forms.FloatField(label = 'Bidding price:', required=False)
+	loan_prop_id=forms.IntegerField()
+	submitRequest=forms.CharField()
 	
 class MyAdsAddForm(forms.Form):
 	tags = forms.CharField(label = 'Item tags:', max_length=1000,widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"tag1,tag2,..."}))
