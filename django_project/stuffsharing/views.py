@@ -149,7 +149,7 @@ def myadsactive(request):
 							cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE id = %s",[r_id])
 						#LoanRequest.objects.raw('SELECT * FROM stuffsharing_loanrequest WHERE id = %s',[r_id]).delete()
 		
-		propsList=LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanproposition WHERE owner_id = %s",[o.user_id])
+		propsList=LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanproposition WHERE owner_id = %s AND available = 1",[o.user_id])
 		if len(propsList) > 0:
 			propsAndForms=[]
 			for prop in propsList:
