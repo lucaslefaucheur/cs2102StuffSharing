@@ -62,23 +62,35 @@
                     <p>Group Project in the purpose of the class CS2102 - Database Systems at the National University of Singapore.<br>Semester 2, Year 2018-2019</p>
                 </div>
                 
+                {% if user.is_authenticated %}
                 <hr class="w-100 clearfix d-md-none">
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 font-weight-bold">My Ads</h6>
-                    <p><a href="#!">Add an Ad</a></p>
-                    <p><a href="#!">Your Active Ads</a></p>
-                    <p><a href="#!">Your Inactie Ads</a></p>
+                    <p><a href="{% url 'stuffsharing-myadsadd' %}">Add an Ad</a></p>
+                    <p><a href="{% url 'stuffsharing-myadsactive' %}">Your Active Ads</a></p>
+                    <p><a href="{% url 'stuffsharing-myadsinactive' %}">Your Inactie Ads</a></p>
                     <p><a href="#!"></a></p>
                 </div>
-                
                 <hr class="w-100 clearfix d-md-none">
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 font-weight-bold">Useful links</h6>
-                    <p><a href="#!">Your Account</a></p>
+                    <p><a href="{% url 'stuffsharing-myaccount' %}">Your Account</a></p>
                     <p><a href="#!">Your Stats</a></p>
-                    <p><a href="#!">About</a></p>
+                    <p><a href="{% url 'stuffsharing-about' %}">About</a></p>
                     <p><a href="#!">Help</a></p>
                 </div>
+                
+                {% else %}
+                <hr class="w-100 clearfix d-md-none">
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Useful links</h6>
+                    <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
+                    <p><a href="{% url 'stuffsharing-signup' %}">Signup</a></p>
+                    <p><a href="{% url 'stuffsharing-about' %}">About</a></p>
+                    <p><a href="#!">Help</a></p>
+                </div>
+    
+                {% endif %} 
 
                 <hr class="w-100 clearfix d-md-none">
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
