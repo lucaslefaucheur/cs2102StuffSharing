@@ -28,7 +28,7 @@ def home(request):
 				if form.is_valid():
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
-					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
+					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s order by price', [prop_id])[0]
 					newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
 					newreq.save()
 				form=SearchForm()
@@ -62,7 +62,7 @@ def search(request):
 				if form.is_valid():
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
-					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
+					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s ORDER BY price	', [prop_id])[0]
 					newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
 					newreq.save()
 				form=SearchForm()
