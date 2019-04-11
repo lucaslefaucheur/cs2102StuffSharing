@@ -250,69 +250,93 @@ def mystats(request):
 	profile=request.user.profile
 
 	#Inactive ads
-	inactive_ads=Stuff.objects.raw("SELECT S.id from stuffsharing_stuff S WHERE S.owner_id = %s AND NOT EXISTS(SELECT 1 FROM stuffsharing_LoanProposition WHERE stuff_for_lown_id = S.id)",  [profile.user_id] )
-	inactive_ads_result=len([i for i in inactive_ads])
-
+	query=Stuff.objects.raw("SELECT S.id from stuffsharing_stuff S WHERE S.owner_id = %s AND NOT EXISTS(SELECT 1 FROM stuffsharing_LoanProposition WHERE stuff_for_lown_id = S.id)",  [profile.user_id] )
+	if len(query)>0:
+		inactive_ads_result=len([i for i in query])
+	else:
+		inactive_ads_result=0
 	#Active ads
-	active_ads=Stuff.objects.raw("SELECT LP.id FROM stuffsharing_LoanProposition LP WHERE LP.owner_id = %s",  [profile.user_id])
-	active_ads_result=len([i for i in active_ads])
-
+	query=Stuff.objects.raw("SELECT LP.id FROM stuffsharing_LoanProposition LP WHERE LP.owner_id = %s",  [profile.user_id])
+	if len(query)>0:
+		active_ads_result=len([i for i in query])
+	else:
+		active_ads_result=0
 	#Most frequent ads
 	query = Stuff.objects.raw("SELECT * FROM stuffsharing_Stuff S WHERE S.owner_id = %s", [profile.user_id])
-	tags_result=[i for i in query]
-	repeated_tags=[]
-	distinct_tags=[]
-	for stuff in query:
-		tab=stuff.tags.split(',')
-		for word in tab:
-			if word.lower() not in distinct_tags:
-				distinct_tags.append(word.lower())
-		repeated_tags+=tab
-		limit=0
-		most_used_tags=[]
-		for tag in distinct_tags:
-			nb=repeated_tags.count(tag)
-			if nb > limit :
-				limit = nb
-				most_used_tags=[tag]
-			elif nb == limit :
-				most_used_tags.append(tag)
-
+	if len(query)>0:
+		tags_result=[i for i in query]
+		repeated_tags=[]
+		distinct_tags=[]
+		for stuff in query:
+			tab=stuff.tags.split(',')
+			for word in tab:
+				if word.lower() not in distinct_tags:
+					distinct_tags.append(word.lower())
+			repeated_tags+=tab
+			limit=0
+			most_used_tags=[]
+			for tag in distinct_tags:
+				nb=repeated_tags.count(tag)
+				if nb > limit :
+					limit = nb
+					most_used_tags=[tag]
+				elif nb == limit :
+					most_used_tags.append(tag)
+	else:
+		most_used_tags=["You don't have any stuff"]
 	#Average duration of the ads
 	query= LoanProposition.objects.raw("SELECT id FROM stuffsharing_LoanProposition WHERE owner_id=%s" , [profile.user_id])
-	all_durations=[(i.end_date-i.start_date) for i in query]
-	sum=datetime.timedelta(microseconds=0)
-	for date in all_durations:
-		sum+=date
-	average_duration=sum/len(all_durations)
+	if len(query)>0:
+		all_durations=[(i.end_date-i.start_date) for i in query]
+		sum=datetime.timedelta(microseconds=0)
+		for date in all_durations:
+			sum+=date
+		average_duration=sum/len(all_durations)
+	else:
+		average_duration=0
 
 	#Number of requests
 	query=LoanProposition.objects.raw("SELECT * FROM stuffsharing_LoanRequest LR Join stuffsharing_LoanProposition LP on LR.original_Proposition_id = LP.id WHERE LP.owner_id=%s", [profile.user_id])
-	number_requests=len([i for i in query])
+	if len(query)>0:
+		number_requests=len([i for i in query])
+	else:
+		number_requests=0
 	
 	#Most used tags in requests
 	query=Stuff.objects.raw("SELECT S.tags,S.id FROM stuffsharing_Stuff S, stuffsharing_LoanRequest LR, stuffsharing_LoanProposition LP WHERE S.id=LP.stuff_for_lown_id AND LP.id=LR.original_Proposition_id AND LR.borrower_id=%s", [profile.user_id])
-	
-	tags_result=[i for i in query]
-	repeated_tags=[]
-	distinct_tags=[]
-	for stuff in query:
-		tab=stuff.tags.split(',')
-		for word in tab:
-			if word.lower() not in distinct_tags:
-				distinct_tags.append(word.lower())
-		repeated_tags+=tab
-		limit=0
-		most_used_tags_requests=[]
-		for tag in distinct_tags:
-			nb=repeated_tags.count(tag)
-			if nb > limit :
-				limit = nb
-				most_used_tags_requests=[tag]
-			elif nb == limit :
-				most_used_tags_requests.append(tag)
+	if len(query)>0:
+		tags_result=[i for i in query]
+		repeated_tags=[]
+		distinct_tags=[]
+		for stuff in query:
+			tab=stuff.tags.split(',')
+			for word in tab:
+				if word.lower() not in distinct_tags:
+					distinct_tags.append(word.lower())
+			repeated_tags+=tab
+			limit=0
+			most_used_tags_requests=[]
+			for tag in distinct_tags:
+				nb=repeated_tags.count(tag)
+				if nb > limit :
+					limit = nb
+					most_used_tags_requests=[tag]
+				elif nb == limit :
+					most_used_tags_requests.append(tag)
+	else:
+		most_used_tags_requests['You never had any loan request']
+	#Average duration of the requests 
+	query= LoanProposition.objects.raw("SELECT * FROM stuffsharing_LoanRequest LR WHERE LR.borrower_id=%s" , [profile.user_id])
+	if len(query)>0:
+		all_durations=[(i.end_date-i.start_date) for i in query]
+		sum=datetime.timedelta(microseconds=0)
+		for date in all_durations:
+			sum+=date
+		average_duration_requests=sum/len(all_durations)
+	else:
+		average_duration_requests=0
 
-	return render(request, 'stuffsharing/mystats.html',{'inactive_ads':inactive_ads_result,'active_ads':active_ads_result,'freq_tags':most_used_tags,'average_duration':average_duration,'number_requests':number_requests,'freq_tags_req':most_used_tags_requests})
+	return render(request, 'stuffsharing/mystats.html',{'inactive_ads':inactive_ads_result,'active_ads':active_ads_result,'freq_tags':most_used_tags,'average_duration':average_duration,'number_requests':number_requests,'freq_tags_req':most_used_tags_requests,'average_duration_request':average_duration_requests})
 
 def signup(request):
     if request.method == 'POST':
