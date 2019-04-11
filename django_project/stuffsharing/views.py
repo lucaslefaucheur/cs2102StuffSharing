@@ -290,7 +290,29 @@ def mystats(request):
 	query=LoanProposition.objects.raw("SELECT * FROM stuffsharing_LoanRequest LR Join stuffsharing_LoanProposition LP on LR.original_Proposition_id = LP.id WHERE LP.owner_id=%s", [profile.user_id])
 	number_requests=len([i for i in query])
 	
-	return render(request, 'stuffsharing/mystats.html',{'inactive_ads':inactive_ads_result,'active_ads':active_ads_result,'freq_tags':most_used_tags,'average_duration':average_duration,'number_requests':number_requests})
+	#Most used tags in requests
+	query=Stuff.objects.raw("SELECT S.tags,S.id FROM stuffsharing_Stuff S, stuffsharing_LoanRequest LR, stuffsharing_LoanProposition LP WHERE S.id=LP.stuff_for_lown_id AND LP.id=LR.original_Proposition_id AND LR.borrower_id=%s", [profile.user_id])
+	
+	tags_result=[i for i in query]
+	repeated_tags=[]
+	distinct_tags=[]
+	for stuff in query:
+		tab=stuff.tags.split(',')
+		for word in tab:
+			if word.lower() not in distinct_tags:
+				distinct_tags.append(word.lower())
+		repeated_tags+=tab
+		limit=0
+		most_used_tags_requests=[]
+		for tag in distinct_tags:
+			nb=repeated_tags.count(tag)
+			if nb > limit :
+				limit = nb
+				most_used_tags_requests=[tag]
+			elif nb == limit :
+				most_used_tags_requests.append(tag)
+
+	return render(request, 'stuffsharing/mystats.html',{'inactive_ads':inactive_ads_result,'active_ads':active_ads_result,'freq_tags':most_used_tags,'average_duration':average_duration,'number_requests':number_requests,'freq_tags_req':most_used_tags_requests})
 
 def signup(request):
     if request.method == 'POST':

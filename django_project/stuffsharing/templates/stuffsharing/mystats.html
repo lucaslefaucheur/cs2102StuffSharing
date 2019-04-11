@@ -25,6 +25,10 @@
         <br>
         <h5>My Requests</h5>
         <p>Number of requests: <strong>{{number_requests}}</strong></p>
+        <p>Most frequent tags requested: </p>
+        {% for word in freq_tags_req %}
+        <li>{{word}}</li>
+        {% endfor %}
         
     </div>
 </div>
