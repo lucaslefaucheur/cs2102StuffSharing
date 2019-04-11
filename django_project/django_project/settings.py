@@ -25,7 +25,7 @@ SECRET_KEY = '0xx!@&600_ahx+h)j&e%s@e=ijak-g#7!g=+%a321&3gdir-4o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,3 +121,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+#STATIC_URL = os.path.join(PROJECT_ROOT, 'static').replace('\\','')+'/'
+
+# Here you can add all the directories from where you want to use your js, css etc
+STATICFILES_DIRS = [
+  # This can be same as the static url
+  os.path.join(BASE_DIR, "stuffsharing/static"),
+   
+
+]
+
+# This is the static root dir from where django uses the files from.
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root")

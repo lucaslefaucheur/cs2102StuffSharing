@@ -11,16 +11,21 @@
     <div class="card">
         <h3>My Stats</h3><br>
         <h5>My Ads</h5>
-        <p>Number of inactive ads: </p>
-        <p>Number of active ads: </p>
+        <br>
+        <p>Number of inactive ads:  <strong>{{inactive_ads}}</strong>  </p>
+        <p>Number of active ads:  <strong>{{active_ads}}</strong></p>
         <p>Most frequent tags used: </p>
-        <p>Average duration of your ads: </p>
+        {% for word in freq_tags %}
+        <li>{{word}}</li>
+        {% endfor %}
+
+        <br>
+        <p>Average duration of your ads: {{average_duration}} </p>
         
         <br>
         <h5>My Requests</h5>
-        <p>Number of requests: </p>
-        <p>Most frequent tags requested: </p>
-        <p>Average duration of your requests: </p>
+        <p>Number of requests: <strong>{{number_requests}}</strong></p>
+        
     </div>
 </div>
 

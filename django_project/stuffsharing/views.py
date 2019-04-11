@@ -16,6 +16,8 @@ import uuid
 from django.contrib.auth import login, authenticate
 import os
 from django.core.files.base import ContentFile
+from django.contrib import messages
+import datetime
 #import PIL
 
 @csrf_protect
@@ -28,9 +30,19 @@ def home(request):
 				if form.is_valid():
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
-					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s order by price', [prop_id])[0]
-					newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
-					newreq.save()
+					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s ORDER BY price	', [prop_id])[0]
+					print(bid_price)
+					print('test',bid_price==None)
+					if bid_price != None or bid_price < 0:
+						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
+						newreq.save()
+					
+					else:
+						print('error message')
+						message='Please put a price'
+						#messages.error(request, "Please put a price")
+						return render(request, 'stuffsharing/error.html',{'message':message})
+				
 				form=SearchForm()
 				return render(request, 'stuffsharing/home.html', {'form': form})
 		else:
@@ -63,10 +75,20 @@ def search(request):
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
 					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s ORDER BY price	', [prop_id])[0]
-					newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
-					newreq.save()
+					print(bid_price)
+					print('test',bid_price==None)
+					if bid_price != None or bid_price < 0:
+						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
+						newreq.save()
+					
+					else:
+						print('error message')
+						message='Please put a price'
+						#messages.error(request, "Please put a price")
+						return render(request, 'stuffsharing/error.html',{'message':message})
+				
 				form=SearchForm()
-				return render(request, 'stuffsharing/home.html', {'form': form})
+				return render(request, 'stuffsharing/search.html', {'form': form})
 		else:
 			form=SearchForm(request.POST)
 			if form.is_valid():
@@ -224,7 +246,51 @@ def myaccount(request):
 	return render(request, 'stuffsharing/myaccount.html')
 
 def mystats(request):
-	return render(request, 'stuffsharing/mystats.html')
+	#User Profile
+	profile=request.user.profile
+
+	#Inactive ads
+	inactive_ads=Stuff.objects.raw("SELECT S.id from stuffsharing_stuff S WHERE S.owner_id = %s AND NOT EXISTS(SELECT 1 FROM stuffsharing_LoanProposition WHERE stuff_for_lown_id = S.id)",  [profile.user_id] )
+	inactive_ads_result=len([i for i in inactive_ads])
+
+	#Active ads
+	active_ads=Stuff.objects.raw("SELECT LP.id FROM stuffsharing_LoanProposition LP WHERE LP.owner_id = %s",  [profile.user_id])
+	active_ads_result=len([i for i in active_ads])
+
+	#Most frequent ads
+	query = Stuff.objects.raw("SELECT * FROM stuffsharing_Stuff S WHERE S.owner_id = %s", [profile.user_id])
+	tags_result=[i for i in query]
+	repeated_tags=[]
+	distinct_tags=[]
+	for stuff in query:
+		tab=stuff.tags.split(',')
+		for word in tab:
+			if word.lower() not in distinct_tags:
+				distinct_tags.append(word.lower())
+		repeated_tags+=tab
+		limit=0
+		most_used_tags=[]
+		for tag in distinct_tags:
+			nb=repeated_tags.count(tag)
+			if nb > limit :
+				limit = nb
+				most_used_tags=[tag]
+			elif nb == limit :
+				most_used_tags.append(tag)
+
+	#Average duration of the ads
+	query= LoanProposition.objects.raw("SELECT id FROM stuffsharing_LoanProposition WHERE owner_id=%s" , [profile.user_id])
+	all_durations=[(i.end_date-i.start_date) for i in query]
+	sum=datetime.timedelta(microseconds=0)
+	for date in all_durations:
+		sum+=date
+	average_duration=sum/len(all_durations)
+
+	#Number of requests
+	query=LoanProposition.objects.raw("SELECT * FROM stuffsharing_LoanRequest LR Join stuffsharing_LoanProposition LP on LR.original_Proposition_id = LP.id WHERE LP.owner_id=%s", [profile.user_id])
+	number_requests=len([i for i in query])
+	
+	return render(request, 'stuffsharing/mystats.html',{'inactive_ads':inactive_ads_result,'active_ads':active_ads_result,'freq_tags':most_used_tags,'average_duration':average_duration,'number_requests':number_requests})
 
 def signup(request):
     if request.method == 'POST':

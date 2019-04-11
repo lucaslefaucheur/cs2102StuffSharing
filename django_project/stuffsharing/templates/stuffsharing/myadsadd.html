@@ -11,15 +11,15 @@
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
         <label class="btn btn-secondary active" onclick="addFunction()">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked>Add Ad
+            <input type="radio" name="options" id="option1" autocomplete="off" checked>Add an object
         </label>
         
         <label class="btn btn-secondary" onclick="activeFunction()">
-             <input type="radio" name="options" id="option2" autocomplete="off">Active Ads
+             <input type="radio" name="options" id="option2" autocomplete="off">My Ads
         </label>
         
         <label class="btn btn-secondary" onclick="inactiveFunction()">
-            <input type="radio" name="options" id="option3" autocomplete="off">Inactive Ads
+            <input type="radio" name="options" id="option3" autocomplete="off">Create an Ad
         </label>
 
     </div>
@@ -28,7 +28,7 @@
 
 <div style="margin-left: 15%; margin-right: 15%;">
 	<div class="card">
-		<h3>Add a stuff</h3>
+		<h3>Create an object</h3>
 			<form method="post" enctype="multipart/form-data">
 				{% csrf_token%}
 				<div class="form-group">
