@@ -30,7 +30,6 @@
 		<form method="post">
 		{% csrf_token%}
 			<div>
-				
 				<strong>
 				<h3>{{pair.0.name}}</h3> </strong>
                 <p>{{pair.0.description}}</p>
@@ -91,8 +90,8 @@
             </div>
         </form>
     </div>
+    {%endfor%}
 </div>
-{%endfor%}
 
 {% else %}
 <div>
