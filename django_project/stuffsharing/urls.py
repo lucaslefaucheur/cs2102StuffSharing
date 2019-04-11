@@ -9,7 +9,6 @@ urlpatterns = [
     path('myadsinactive/', views.myadsinactive, name='stuffsharing-myadsinactive'),
     path('myrequestspending/', views.myrequestspending, name='stuffsharing-myrequestspending'),
     path('myrequestsaccepted/', views.myrequestsaccepted, name='stuffsharing-myrequestsaccepted'),
-    path('currenttransactions/', views.currenttransactions, name='stuffsharing-currenttransactions'),
     path('about/', views.about, name='stuffsharing-about'),
     path('myaccount/', views.myaccount, name='stuffsharing-myaccount'),
     path('signup/',views.signup,name='stuffsharing-signup'),

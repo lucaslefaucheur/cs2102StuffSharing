@@ -220,9 +220,6 @@ def myrequestspending(request):
 def myrequestsaccepted(request): 
     return render(request, 'stuffsharing/myrequestsaccepted.html')
 
-def currenttransactions(request):
-    return render(request, 'stuffsharing/currenttransactions.html')
-
 def myaccount(request):
 	return render(request, 'stuffsharing/myaccount.html')
 
