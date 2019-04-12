@@ -34,9 +34,14 @@ def home(request):
 					bid_price = form.cleaned_data['price']
 					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
 					if bid_price != None or bid_price < 0:
-						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
-						newreq.save()
-						return redirect('/myrequestspending/')
+						prevRequest=LoanRequest.objects.raw('SELECT * FROM stuffsharing_LoanRequest WHERE borrower_id = %s AND original_Proposition_id = %s',[borrow.user_id,prop_id])
+						if not len(prevRequest) > 0:
+							newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
+							newreq.save()
+							return redirect('/myrequestspending/')
+						else:
+							message='You already requested this item'
+							return render(request, 'stuffsharing/error.html',{'message':message})
 					else:
 						message='Please put a price'
 						return render(request, 'stuffsharing/error.html',{'message':message})
@@ -75,9 +80,14 @@ def search(request):
 					bid_price = form.cleaned_data['price']
 					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
 					if bid_price != None or bid_price < 0:
-						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
-						newreq.save()
-						return redirect('/myrequestspending/')
+						prevRequest=LoanRequest.objects.raw('SELECT * FROM stuffsharing_LoanRequest WHERE borrower_id = %s AND original_Proposition_id = %s',[borrow.user_id,prop_id])
+						if not len(prevRequest) > 0:
+							newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
+							newreq.save()
+							return redirect('/myrequestspending/')
+						else:
+							message='You already requested this item'
+							return render(request, 'stuffsharing/error.html',{'message':message})
 					else:
 						message='Please put a price'
 						return render(request, 'stuffsharing/error.html',{'message':message})
@@ -189,10 +199,13 @@ def myadsinactive(request):
 					pr=form.cleaned_data['price']
 					paddr = form.cleaned_data['pickupAddress']
 					raddr = form.cleaned_data['returnAddress']
-					
-					stuff = Stuff.objects.raw('SELECT * FROM stuffsharing_stuff WHERE id = %s',[sid])[0]
-					newloanprop=LoanProposition(owner=o,stuff_for_lown=stuff, start_date=sdate,end_date=edate,price=pr,pickupAdress=paddr,returnAdress=raddr,available=True)
-					newloanprop.save()
+					if sdate < edate:
+						stuff = Stuff.objects.raw('SELECT * FROM stuffsharing_stuff WHERE id = %s',[sid])[0]
+						newloanprop=LoanProposition(owner=o,stuff_for_lown=stuff, start_date=sdate,end_date=edate,price=pr,pickupAdress=paddr,returnAdress=raddr,available=True)
+						newloanprop.save()
+					else:
+						message='The pick up date must be sooner than the return date.'
+						return render(request, 'stuffsharing/error.html',{'message':message})
 				
 		inactiveStuff = Stuff.objects.raw('SELECT * from stuffsharing_stuff S WHERE owner_id = %s', [o.user_id])
 		if len(inactiveStuff)!=0:
