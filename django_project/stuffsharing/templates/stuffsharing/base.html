@@ -36,6 +36,9 @@
                         <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'stuffsharing-about' %}">About</a>
+                </li>
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a>
@@ -65,9 +68,9 @@
                 <hr class="w-100 clearfix d-md-none">
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 font-weight-bold">My Ads</h6>
-                    <p><a href="{% url 'stuffsharing-myadsadd' %}">Add an Ad</a></p>
-                    <p><a href="{% url 'stuffsharing-myadsactive' %}">Your Active Ads</a></p>
-                    <p><a href="{% url 'stuffsharing-myadsinactive' %}">Your Inactie Ads</a></p>
+                    <p><a href="{% url 'stuffsharing-myadsadd' %}">Create a Stuff</a></p>
+                    <p><a href="{% url 'stuffsharing-myadsactive' %}">Your Ads</a></p>
+                    <p><a href="{% url 'stuffsharing-myadsinactive' %}">Create an Ad</a></p>
                     <p><a href="#!"></a></p>
                 </div>
                 <hr class="w-100 clearfix d-md-none">

@@ -11,7 +11,7 @@
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
         <label class="btn btn-secondary active" onclick="addFunction()">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked>Add an object
+            <input type="radio" name="options" id="option1" autocomplete="off" checked>Create a Stuff
         </label>
         
         <label class="btn btn-secondary" onclick="activeFunction()">
@@ -28,7 +28,7 @@
 
 <div style="margin-left: 15%; margin-right: 15%;">
 	<div class="card">
-		<h3>Create an object</h3>
+		<h3>Create a Stuff</h3>
 			<form method="post" enctype="multipart/form-data">
 				{% csrf_token%}
 				<div class="form-group">
