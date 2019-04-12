@@ -18,11 +18,13 @@ import os
 from django.core.files.base import ContentFile
 from django.contrib import messages
 import datetime
-#import PIL
 
+##################All the views#####################
 @csrf_protect
+#Home page
 def home(request):
 	if request.method=='POST':
+		#Submit request
 		if 'submitRequest' in request.POST:
 			if request.user.is_authenticated:
 				borrow=request.user.profile
@@ -31,21 +33,18 @@ def home(request):
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
 					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
-					print(bid_price)
-					print('test',bid_price==None)
 					if bid_price != None or bid_price < 0:
 						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
 						newreq.save()
 						return redirect('/myrequestspending/')
 					else:
-						print('error message')
 						message='Please put a price'
-						#messages.error(request, "Please put a price")
 						return render(request, 'stuffsharing/error.html',{'message':message})
 				
 				form=SearchForm()
 				return render(request, 'stuffsharing/home.html', {'form': form})
 		else:
+			#Search request
 			form=SearchForm(request.POST)
 			if form.is_valid():
 				search='%'+form.cleaned_data['search']+'%'
@@ -57,16 +56,16 @@ def home(request):
 					for proposition in result:
 						if proposition.available:
 							propositions.append((proposition, BidForm(initial={'loan_prop_id':proposition.id})))
-					print(propositions)
-					print('##################################')
 					return render(request, 'stuffsharing/search.html', {'form': form,'propositions':propositions})
 	else:
 		form=SearchForm()
 	return render(request, 'stuffsharing/home.html', {'form': form})
 
+#Search page (almost the same as home page)
 @csrf_protect
 def search(request):
 	if request.method=='POST':
+		#Submit request
 		if 'submitRequest' in request.POST:
 			if request.user.is_authenticated:
 				borrow=request.user.profile
@@ -75,21 +74,18 @@ def search(request):
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
 					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
-					print(bid_price)
-					print('test',bid_price==None)
 					if bid_price != None or bid_price < 0:
 						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
 						newreq.save()
 						return redirect('/myrequestspending/')
 					else:
-						print('error message')
 						message='Please put a price'
-						#messages.error(request, "Please put a price")
 						return render(request, 'stuffsharing/error.html',{'message':message})
 				
 				form=SearchForm()
 				return render(request, 'stuffsharing/search.html', {'form': form})
 		else:
+			#Search request
 			form=SearchForm(request.POST)
 			if form.is_valid():
 				search='%'+form.cleaned_data['search']+'%'
@@ -101,14 +97,12 @@ def search(request):
 					for proposition in result:
 						if proposition.available:
 							propositions.append((proposition, BidForm(initial={'loan_prop_id':proposition.id})))
-					print(propositions)
-					print('##################################')
 					return render(request, 'stuffsharing/search.html', {'form': form,'propositions':propositions})
 	else:
 		form=SearchForm()
 	return render(request, 'stuffsharing/search.html', {'form': form})
 
-
+#Adding a new stuff (add and stuff may be confusing here, it's a stuff that is added)
 def myadsadd(request):
 	if request.user.is_authenticated :
 		if request.method=='POST':
@@ -119,10 +113,9 @@ def myadsadd(request):
 				d=form.cleaned_data['description']
 				o=request.user.profile
 				s=Stuff(tags=t,description=d,owner=o,name=name)
-				pic1=request.FILES['myfile']
-				#pic1=form.cleaned_data['pic1']
-				print('pic',pic1)
-				if pic1!=None or pic1!='':
+				#Check if picture has been loaded.
+				if 'myfile' in request.FILES:
+					pic1=request.FILES['myfile']
 					image_path='Storage/%s/'%(request.user.username)+name+str(pic1)[:-4]
 					save_path = './stuffsharing/static/'+image_path
 					
@@ -132,7 +125,6 @@ def myadsadd(request):
 						os.makedirs(directory)      
 
 					fout = open(save_path, 'wb+')
-					print(str(request.FILES['myfile']))
 					file_content = ContentFile( pic1.read() )
 					for chunk in file_content.chunks():
 						fout.write(chunk)
@@ -141,7 +133,7 @@ def myadsadd(request):
 
 	form=MyAdsAddForm()
 	return render(request, 'stuffsharing/myadsadd.html', {'form': form})
-
+#Active ads
 def myadsactive(request):
 	if request.user.is_authenticated :
 		o=request.user.profile
@@ -152,7 +144,6 @@ def myadsactive(request):
 					p_id = form.cleaned_data['loan_prop_id']
 					with connection.cursor() as cursor:
 						cursor.execute("DELETE FROM stuffsharing_loanproposition WHERE id = %s",[p_id])
-					#LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanproposition WHERE id = %s",[p_id]).delete()
 			else:
 				form=MyAdsActiveBidForm(request.POST)
 				if form.is_valid():
@@ -180,7 +171,7 @@ def myadsactive(request):
 			return render(request, 'stuffsharing/myadsactive.html')
 	else:
 		return render(request, 'stuffsharing/myadsactive.html')
-
+#Inactive ads
 def myadsinactive(request):
 	if request.user.is_authenticated :
 		o=request.user.profile
@@ -193,7 +184,6 @@ def myadsinactive(request):
 				form=MyAdsInactiveForm(request.POST)
 				if form.is_valid():
 					sid = form.cleaned_data['stuff_for_lown']
-					#aname = form.cleaned_data['adName']
 					sdate = form.cleaned_data['start_date']
 					edate = form.cleaned_data['end_date']
 					pr=form.cleaned_data['price']
@@ -208,15 +198,14 @@ def myadsinactive(request):
 		if len(inactiveStuff)!=0:
 				propForms=[]
 				for item in inactiveStuff:
-					#propForms.append({'stuff': item, 'form': MyAdsInactiveForm(initial={'stuff_for_lown': item.id})})
 					propForms.append((item, MyAdsInactiveForm(initial={'stuff_for_lown': item.id,'pickupAddress': o.address, 'returnAddress': o.address})))
 				return render(request, 'stuffsharing/myadsinactive.html', {'formList': propForms})
 				
 	return render(request, 'stuffsharing/myadsinactive.html')
-
+#About view
 def about(request):
     return render(request, 'stuffsharing/about.html')
-
+#Pending requests view
 def myrequestspending(request):
 	if request.user.is_authenticated :
 		o=request.user.profile
@@ -233,6 +222,7 @@ def myrequestspending(request):
 		return render(request, 'stuffsharing/myrequestspending.html',{'reqAndForm':reqAndForm})
 	return render(request, 'stuffsharing/myrequestspending.html')
 
+#Accepted requests view
 def myrequestsaccepted(request): 
 	if request.user.is_authenticated :
 		o=request.user.profile
@@ -243,9 +233,10 @@ def myrequestsaccepted(request):
 		return render(request, 'stuffsharing/myrequestsaccepted.html',{'requests':requests})
 	return render(request, 'stuffsharing/myrequestsaccepted.html')
 
+#My account view
 def myaccount(request):
 	return render(request, 'stuffsharing/myaccount.html')
-
+#My stats view
 def mystats(request):
 	#User Profile
 	profile=request.user.profile
@@ -339,26 +330,25 @@ def mystats(request):
 
 	return render(request, 'stuffsharing/mystats.html',{'inactive_ads':inactive_ads_result,'active_ads':active_ads_result,'freq_tags':most_used_tags,'average_duration':average_duration,'number_requests':number_requests,'freq_tags_req':most_used_tags_requests,'average_duration_request':average_duration_requests})
 
+#Signup view
 def signup(request):
     if request.method == 'POST':
+		#user form 
         user_form = SignUpForm(request.POST)
+		#profile form
         profile_form = UserProfileInfoForm(request.POST)
-        print('checking valid form')
-        print('valid',user_form.is_valid())
+ 
         if user_form.is_valid() and profile_form.is_valid() :
         
         	user = user_form.save()
         	user.save()
         	profile = profile_form.save(commit=False)
         	profile.user = user
-        	#profile.user_name=form.cleaned_data['Name']
         	profile.save()
         	registered = True
         	if registered : 
         		login(request, user)
         		return redirect('/')
-        else:
-       		print(user_form.errors,profile_form.errors)
     else:
         user_form = SignUpForm()
         profile_form = UserProfileInfoForm()

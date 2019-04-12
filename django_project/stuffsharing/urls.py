@@ -1,6 +1,6 @@
 from django.urls import path 
 from . import views
-
+#All the urls are defined in this file
 urlpatterns = [
     path('', views.home, name='stuffsharing-home'),
     path('search/', views.search, name='stuffsharing-search'),

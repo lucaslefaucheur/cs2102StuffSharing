@@ -2,12 +2,14 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from stuffsharing.models import Profile
-#import PIL
 
+#Form used for signing up, the classs UserCreationForm has pre-established fields
 class SignUpForm(UserCreationForm):
   
     class Meta:
+		#Django recognize which fields to display from the model
         model = User
+		#Fields of the form
         fields = ('username','email')
        
 class UserProfileInfoForm(forms.ModelForm):
@@ -28,19 +30,14 @@ class MyAdsAddForm(forms.Form):
 	tags = forms.CharField(label = 'Item tags:', max_length=1000,widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"tag1,tag2,..."}))
 	name=forms.CharField(label = 'Item name:', max_length=1000,widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"name"}))
 	description = forms.CharField(label = 'Item Desctiption:', widget=forms.Textarea(attrs={'class': "form-control", 'rows':'3','type':"Description",'placeholder':"item description"}))
-	#pic1 = forms.ImageField(label = 'Item image', required=False)
-	#pic2 = forms.FileField(label = '', required=False)
-	#pic3 = forms.FileField(label = '', required=False)
 	
 class MyAdsInactiveForm(forms.Form):
 	stuff_for_lown=forms.IntegerField()
-	#adName=forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"Ad name"}), required=False)
 	start_date=forms.DateField(label = 'Pick up date:',widget=forms.widgets.SelectDateWidget())
 	end_date=forms.DateField(label = 'Return date:',widget=forms.widgets.SelectDateWidget())
 	price=forms.FloatField(label = 'Price')
 	pickupAddress=forms.CharField(label='Address',max_length=255)
-	returnAddress=forms.CharField(label='Address',max_length=255)
-	
+	returnAddress=forms.CharField(label='Address',max_length=255)	
 	selectType=forms.ChoiceField(label='Selection', choices=[('auto','automatic'),('manual','manual')], widget=forms.RadioSelect)
 	submitter=forms.CharField()
 

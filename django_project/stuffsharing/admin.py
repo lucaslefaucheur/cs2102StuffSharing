@@ -11,6 +11,7 @@ admin.site.register(Stuff)
 admin.site.register(LoanProposition)
 admin.site.register(LoanRequest)
 
+#Connects the profile with the user
 class ProfileInline(admin.StackedInline):
 	model = Profile
 	can_delete = False
