@@ -35,22 +35,14 @@ class MyAdsAddForm(forms.Form):
 class MyAdsInactiveForm(forms.Form):
 	stuff_for_lown=forms.IntegerField()
 	#adName=forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control",'type':"Name",'placeholder':"Ad name"}), required=False)
-	start_date=forms.DateField(label = 'Pick up date:', required=False,widget=forms.widgets.SelectDateWidget())
-	end_date=forms.DateField(label = 'Return date:', required=False,widget=forms.widgets.SelectDateWidget())
-	price=forms.FloatField(label = 'Price', required=False)
-	pickupAddress=forms.CharField(label='Address',max_length=255, required=False)
-	returnAddress=forms.CharField(label='Address',max_length=255, required=False)
+	start_date=forms.DateField(label = 'Pick up date:',widget=forms.widgets.SelectDateWidget())
+	end_date=forms.DateField(label = 'Return date:',widget=forms.widgets.SelectDateWidget())
+	price=forms.FloatField(label = 'Price')
+	pickupAddress=forms.CharField(label='Address',max_length=255)
+	returnAddress=forms.CharField(label='Address',max_length=255)
 	
-	selectType=forms.ChoiceField(label='Selection', choices=[('auto','automatic'),('manual','manual')], widget=forms.RadioSelect,required=False)
+	selectType=forms.ChoiceField(label='Selection', choices=[('auto','automatic'),('manual','manual')], widget=forms.RadioSelect)
 	submitter=forms.CharField()
-	
-	def clean(self):
-		cleaned_data = super().clean()
-		if cleaned_data['submitter']=='Post':
-			for field in cleaned_data:
-				if not field:
-					raise forms.ValidationError("All fields are required to create a new add")
-		return cleaned_data
 
 class MyAdsActiveBidForm(forms.Form):
 	loan_request_id=forms.IntegerField()

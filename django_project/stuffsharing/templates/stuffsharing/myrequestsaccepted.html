@@ -23,30 +23,29 @@
     </form>
 </div>
 
+
 <div style="margin-left: 15%; margin-right: 15%;">
+{%for req in requests%}
     <div class="card">
-        <h3>[Ad Name]</h3>
-        <h5>[Price]$</h5>
-        <p>[Description]</p>
+        <h3>{{req.original_Proposition.stuff_for_lown.name}}</h3>
+        <h5>{{req.original_Proposition.price}}$</h5>
+        <p>{{req.original_Proposition.stuff_for_lown.description}}</p>
         <div>
             {% load static %}
-            <img style="height:150px;" src="">
+            <img style="height:150px;" src="{% static req.original_Proposition.stuff_for_lown.image %}">
         </div>
         <br>
 		<div>
-			<p>Owner: </p>
-			<p>Pick up location:  <br>Pick up date: </p>
-			<p>Return location:  <br>Return date: </p>
+			<p>Owner: {{req.original_Proposition.owner.Name}}</p>
+			<p>Pick up location: {{req.original_Proposition.pickupAdress}} <br>Pick up date: {{req.original_Proposition.start_date}}</p>
+			<p>Return location: {{req.original_Proposition.returnAdress}} <br>Return date: {{req.original_Proposition.end_date}}</p>
 		</div>
 		
         <div>
-			<p>My bid: [price]$</p>
-			<form method="post">
-				{% csrf_token%}
-				{{pair.1.loan_request_id.as_hidden}}
-			</form>
+			<p>My bid: {{req.price}}$</p>
 		</div>
     </div>
+{%endfor%}
 </div>
 
 {% else %}

@@ -85,9 +85,14 @@
                     <p style="font-size: 10px; padding-left: 40px;float: left;">You need to select an offer under the Active Ads tab.<br> If you haven't chosen anyone on the day before the pick up date, this ad will be removed.</p><br>                
 				</div>
                 <br><br><br><br><br><br><br><br><br><br>
+				<button type="submit" class="btn btn-success" style="float: left;" name='submitter' value='Post'>Post</button>
+			</form>
+			<form method="post">
+				{% csrf_token%}
+				{{pair.1.stuff_for_lown.as_hidden}}
                 <button type="submit" class="btn btn-danger" style="float: left;" name='submitter' value='Delete'>Delete</button>
-                <button type="submit" class="btn btn-success" style="float: left;" name='submitter' value='Post'>Post</button>
-            </div>
+            </form>
+			</div>
         </form>
     </div>
     {%endfor%}

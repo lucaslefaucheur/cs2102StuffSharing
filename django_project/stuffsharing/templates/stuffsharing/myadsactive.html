@@ -34,33 +34,51 @@
            
         </div>
 		
-		{%for pair in triplet.2%}
-        <div class="card">
-            <p>User Id: {{pair.0.borrower.Name}}</p>
-            <p>Contact: {{pair.0.borrower.phone}}</p>
-            <p>Price: {{pair.0.price}}</p>
-			<form method="post">
-			{% csrf_token%}
-            <div>
-				{{pair.1.loan_request_id.as_hidden}}
-                <button type="submit" class="btn btn-danger" name="submitter" value="reject">Reject</button>
-                <button type="submit" class="btn btn-success" name="submitter" value="accept">Accept</button>
-            </div>
-			</form>
-        </div>
-		{%endfor%}
+		{%if not triplet.0.available%}
+			{%for pair in triplet.2%}
+				{%if pair.0.accepted%}
+				<div class="card">
+					<p>Accepted request: </p>
+					<p>User Id: {{pair.0.borrower.Name}}</p>
+					<p>Contact: {{pair.0.borrower.phone}}</p>
+					<p>Price: {{pair.0.price}}</p>
+				</div>
+				{%endif%}
+			{%endfor%}
+			<br>
+			<div>
+				<p>Price: {{triplet.0.price}} $</p>
+				<p>Pick up location: {{triplet.0.pickupAdress}}<br> Pick up date: {{triplet.0.start_date}}</p>
+				<p>Return location: {{triplet.0.returnAdress}}<br> Return date: {{triplet.0.end_date}}</p>
+			</div>
+		{%else%}
+			{%for pair in triplet.2%}
+			<div class="card">
+				<p>User Id: {{pair.0.borrower.Name}}</p>
+				<p>Contact: {{pair.0.borrower.phone}}</p>
+				<p>Price: {{pair.0.price}}</p>
+				<form method="post">
+				{% csrf_token%}
+				<div>
+					{{pair.1.loan_request_id.as_hidden}}
+					<button type="submit" class="btn btn-success" name="submitter" value="accept">Accept</button>
+				</div>
+				</form>
+			</div>
+			{%endfor%}
 
 		<br>
         <div>
             <p>Price: {{triplet.0.price}} $</p>
-            <p>Pick up location: {{triplet.0.pickupAdress.adress_name}}<br> Pick up date: {{triplet.0.start_date}}</p>
-            <p>Return location: {{triplet.0.returnAdress.adress_name}}<br> Return date: {{triplet.0.end_date}}</p>
+            <p>Pick up location: {{triplet.0.pickupAdress}}<br> Pick up date: {{triplet.0.start_date}}</p>
+            <p>Return location: {{triplet.0.returnAdress}}<br> Return date: {{triplet.0.end_date}}</p>
 			<form method="post">
 			{% csrf_token%}
 			{{triplet.1.loan_prop_id.as_hidden}}
             <button type="submit" class="btn btn-warning" name="submitter" value="remove">Remove</button>
 			</form>
         </div>
+		{%endif%}
     </div>
 	{% endfor %}
 </div>

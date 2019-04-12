@@ -30,13 +30,13 @@ def home(request):
 				if form.is_valid():
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
-					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s ORDER BY price	', [prop_id])[0]
+					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
 					print(bid_price)
 					print('test',bid_price==None)
 					if bid_price != None or bid_price < 0:
 						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
 						newreq.save()
-					
+						return redirect('/myrequestspending/')
 					else:
 						print('error message')
 						message='Please put a price'
@@ -49,7 +49,7 @@ def home(request):
 			form=SearchForm(request.POST)
 			if form.is_valid():
 				search='%'+form.cleaned_data['search']+'%'
-				query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s', [search])
+				query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s AND L.available = 1 ORDER BY L.price', [search])
 				result=[i for i in query]
 
 				if len(result)!=0:
@@ -74,13 +74,13 @@ def search(request):
 				if form.is_valid():
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
-					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s ORDER BY price	', [prop_id])[0]
+					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
 					print(bid_price)
 					print('test',bid_price==None)
 					if bid_price != None or bid_price < 0:
 						newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
 						newreq.save()
-					
+						return redirect('/myrequestspending/')
 					else:
 						print('error message')
 						message='Please put a price'
@@ -93,7 +93,7 @@ def search(request):
 			form=SearchForm(request.POST)
 			if form.is_valid():
 				search='%'+form.cleaned_data['search']+'%'
-				query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s', [search])
+				query=LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition L join stuffsharing_Stuff S on L.stuff_for_lown_id=S.id WHERE S.tags LIKE %s AND L.available = 1 ORDER BY L.price', [search])
 				result=[i for i in query]
 
 				if len(result)!=0:
@@ -164,18 +164,13 @@ def myadsactive(request):
 						lprop = lreq.original_Proposition
 						lprop.available=False
 						lprop.save()
-						with connection.cursor() as cursor:
-							cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE NOT id = %s AND original_proposition_id = %s",[r_id,lprop.id])
-					else:
-						with connection.cursor() as cursor:
-							cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE id = %s",[r_id])
-						#LoanRequest.objects.raw('SELECT * FROM stuffsharing_loanrequest WHERE id = %s',[r_id]).delete()
+						
 		
-		propsList=LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanproposition WHERE owner_id = %s AND available = 1",[o.user_id])
+		propsList=LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanproposition WHERE owner_id = %s GROUP BY available ORDER BY available",[o.user_id])
 		if len(propsList) > 0:
 			propsAndForms=[]
 			for prop in propsList:
-				lrequests=LoanRequest.objects.raw('SELECT * FROM stuffsharing_loanrequest WHERE original_proposition_id = %s',[prop.id])
+				lrequests=LoanRequest.objects.raw('SELECT * FROM stuffsharing_loanrequest WHERE original_proposition_id = %s ORDER BY price DESC LIMIT 5',[prop.id])
 				reqAndForm=[]
 				for req in lrequests:
 					reqAndForm.append((req, MyAdsActiveBidForm(initial={'loan_request_id': req.id})))
@@ -190,14 +185,13 @@ def myadsinactive(request):
 	if request.user.is_authenticated :
 		o=request.user.profile
 		if request.method=='POST':
-			form=MyAdsInactiveForm(request.POST)
-			if form.is_valid():
-				if form.cleaned_data['submitter']=='Delete':
-					sid = form.cleaned_data['stuff_for_lown']
-					with connection.cursor() as cursor:
-							cursor.execute("DELETE FROM stuffsharing_stuff WHERE id = %s",[sid])
-					#Stuff.objects.raw('SELECt * FROM stuffsharing_stuff WHERE id = %s',[sid]).delete()
-				else:
+			if request.POST['submitter']=='Delete':
+				sid = request.POST['stuff_for_lown']
+				with connection.cursor() as cursor:
+					cursor.execute("DELETE FROM stuffsharing_stuff WHERE id = %s",[sid])
+			else: 
+				form=MyAdsInactiveForm(request.POST)
+				if form.is_valid():
 					sid = form.cleaned_data['stuff_for_lown']
 					#aname = form.cleaned_data['adName']
 					sdate = form.cleaned_data['start_date']
@@ -210,7 +204,7 @@ def myadsinactive(request):
 					newloanprop=LoanProposition(owner=o,stuff_for_lown=stuff, start_date=sdate,end_date=edate,price=pr,pickupAdress=paddr,returnAdress=raddr,available=True)
 					newloanprop.save()
 				
-		inactiveStuff = Stuff.objects.raw('SELECT * from stuffsharing_stuff S WHERE owner_id = %s AND NOT EXISTS(SELECT 1 FROM stuffsharing_LoanProposition WHERE stuff_for_lown_id = S.id)', [o.user_id])
+		inactiveStuff = Stuff.objects.raw('SELECT * from stuffsharing_stuff S WHERE owner_id = %s', [o.user_id])
 		if len(inactiveStuff)!=0:
 				propForms=[]
 				for item in inactiveStuff:
@@ -232,7 +226,7 @@ def myrequestspending(request):
 				r_id=form.cleaned_data['loan_request_id']
 				with connection.cursor() as cursor:
 					cursor.execute("DELETE FROM stuffsharing_loanrequest WHERE id = %s",[r_id])
-		reqList=LoanRequest.objects.raw("SELECT * FROM stuffsharing_loanrequest WHERE borrower_id = %s",[o.user_id])
+		reqList=LoanRequest.objects.raw("SELECT * FROM stuffsharing_loanrequest R JOIN stuffsharing_LoanProposition P ON R.original_Proposition_id=P.id WHERE R.borrower_id = %s AND R.accepted = 0 AND P.available = 1",[o.user_id])
 		reqAndForm=[]
 		for req in reqList:
 			reqAndForm.append((req,MyAdsActiveBidForm(initial={'loan_request_id': req.id})))
@@ -240,7 +234,14 @@ def myrequestspending(request):
 	return render(request, 'stuffsharing/myrequestspending.html')
 
 def myrequestsaccepted(request): 
-    return render(request, 'stuffsharing/myrequestsaccepted.html')
+	if request.user.is_authenticated :
+		o=request.user.profile
+		reqList=LoanRequest.objects.raw("SELECT * FROM stuffsharing_loanrequest WHERE borrower_id = %s AND accepted = 1",[o.user_id])
+		requests=[]
+		for req in reqList:
+			requests.append(req)
+		return render(request, 'stuffsharing/myrequestsaccepted.html',{'requests':requests})
+	return render(request, 'stuffsharing/myrequestsaccepted.html')
 
 def myaccount(request):
 	return render(request, 'stuffsharing/myaccount.html')
