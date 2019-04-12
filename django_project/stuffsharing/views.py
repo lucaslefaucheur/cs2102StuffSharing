@@ -87,18 +87,26 @@ def search(request):
 					prop_id = form.cleaned_data['loan_prop_id']
 					bid_price = form.cleaned_data['price']
 					origin_prop = LoanProposition.objects.raw('SELECT * FROM stuffsharing_LoanProposition WHERE id = %s', [prop_id])[0]
-					if bid_price != None or bid_price < 0:
-						prevRequest=LoanRequest.objects.raw('SELECT * FROM stuffsharing_LoanRequest WHERE borrower_id = %s AND original_Proposition_id = %s',[borrow.user_id,prop_id])
-						if not len(prevRequest) > 0:
-							newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
-							newreq.save()
-							return redirect('/myrequestspending/')
-						else:
-							message='You already requested this item'
-							return render(request, 'stuffsharing/error.html',{'message':message})
-					else:
+					already_requested = LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanRequest LR WHERE LR.borrower_id = %s AND LR.original_proposition_id = %s", [borrow.user_id, origin_prop.id])
+ 
+					if bid_price == None:
 						message='Please put a price'
 						return render(request, 'stuffsharing/error.html',{'message':message})
+
+					else:
+						if bid_price < 0:
+							message='Please put a positive price'
+							return render(request, 'stuffsharing/error.html',{'message':message})
+
+						else:
+							if len(already_requested) > 0:
+								message='You have already requested this item'
+								return render(request, 'stuffsharing/error.html',{'message':message})
+
+							else: 
+								newreq = LoanRequest(original_Proposition=origin_prop,borrower=borrow,price=bid_price)
+								newreq.save()
+								return redirect('/myrequestspending/')
 				
 				form=SearchForm()
 				return render(request, 'stuffsharing/search.html', {'form': form})
