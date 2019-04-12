@@ -166,7 +166,7 @@ def myadsactive(request):
 						lprop.save()
 						
 		
-		propsList=LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanproposition WHERE owner_id = %s GROUP BY available ORDER BY available",[o.user_id])
+		propsList=LoanProposition.objects.raw("SELECT * FROM stuffsharing_loanproposition WHERE owner_id = %s ORDER BY available DESC",[o.user_id])
 		if len(propsList) > 0:
 			propsAndForms=[]
 			for prop in propsList:
